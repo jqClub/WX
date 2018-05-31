@@ -1,0 +1,11 @@
+log(`let_time: (${let_time})`)	
+
+1.获取设备系统信息：wx.getSystemInfo(OBJECT)
+2.import { log } from '../../utils/util.js'
+3.json文件里面不能放注释信息
+
+4.transform:scale(-1, 1) rotate(-10deg);可以设置旋转的方向
+
+
+5.小程序相关：测试环境的http需要在手机上打开调试，并且需要在onogin里面添加需要处理的函数
+
