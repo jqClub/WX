@@ -1,0 +1,23 @@
+1.wxml文件引入
+<!--登陆模块-->
+	<login class="initial_view_box" bind:login="onlogin" style="{{ initial_show ? 'opacity: 1; pointer-events: auto;':''}} background: linear-gradient(to bottom,#48087B, #9602dc) !important;"></login>
+	
+	3.data里面写
+	//登陆提示
+		initial_show: false,
+	
+		
+		//监听登陆事件
+	onlogin : function(e){
+		var that = this ;
+		that.setData({
+			userInfo: app.data.userInfo,
+			getSystemInfo: app.data.getSystemInfo,
+			initial_show: false
+		})
+		//获取(去请求接口)
+		//that.LOGIN_REWARD();
+	},
+	
+	
+	2.放入index.json(文件名需要修改成对应的页面)

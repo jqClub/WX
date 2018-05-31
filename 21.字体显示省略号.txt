@@ -1,0 +1,17 @@
+1.超过显示省略号
+.button_list_left1 {
+	margin-right: 120rpx;	
+	display:block;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	overflow:hidden;
+}
+
+	2.底部增加下划线
+	.button_list_right:after {
+	content:'';  
+  display:block;   
+  margin-top:-2rpx;  
+	width: 95%;
+	border-bottom: 2rpx solid #ee1f61;
+}

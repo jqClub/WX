@@ -1,0 +1,125 @@
+<!--排行榜-->
+<view class="rank" style="height:{{getSystemInfo.screenHeight}}px; margin-top: 60rpx;"  >
+	
+	<!--选项卡-->
+	<view class="select ">
+		<view class="hr boxshadow_01 maincolor_bg_02" style="{{billcurrent == '0' ? 'transform:translateX(8%)' : 'transform:translateX(110%)' }}"></view>
+		<button class="text_size03 {{billcurrent == '0' ? 'maincolor_fff' : 'maincolor_999' }}"  catchtap="set_select" data-num="0"  formType="submit" hover-class="false">好友排行</button>
+		<button class="text_size03 {{billcurrent == '1' ? 'maincolor_fff' : 'maincolor_999' }}"  catchtap="set_select" data-num="1"  formType="submit" hover-class="false">世界排行</button>
+	</view>
+	
+	
+	<view style="width:750rpx; height:{{getSystemInfo.screenHeight*0.76}}px; position: relative; ">
+		
+		<swiper class="swiper" indicator-dots="{{indicatorDots}}" current="{{billcurrent}}"  autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" bindchange="touch_select" style="height:100%">
+			
+			<!--好友排行-->
+			<swiper-item>
+				
+				
+				<!--记录-->
+				<scroll-view class="list_box" bindscrolltolower="TOP_FRIEND" scroll-y="true" style="height:100%;  ">
+					
+					
+					
+					<!--没有排行榜-->
+					<view class="display_flex" style="{{ top_friend_list.length < 1 ? '' : 'display:none;'}} height: 100%; flex-direction: column;">
+						<image class="" src="https://static.zuiqiangyingyu.cn/wechatApp/banma_song/src/public/images_02/yingying_04.png" mode="widthFix" style="width: 200rpx; height: 305rpx; margin-left: 40rpx;"></image>
+						<view class="maincolor_fff text_size02" style="margin-top: 24rpx; margin-bottom: 100rpx;">您还没有邀请好友呢</view>
+					</view>
+					
+					
+					<!--排行榜-->
+					<view class="list" wx:for="{{top_friend_list}}" wx:for-index="idx" wx:key="{{item.pos}}">
+						<view class="user_msg">
+							<view class="display_flex" style="width: 140rpx;  flex: none; ">
+								<image wx:if="{{ item.pos == 1 }}" 	class="" src="https://static.zuiqiangyingyu.cn/wechatApp/banma_song/src/public/images/rank_01.png" style="width: 74rpx; height: 64rpx; margin-bottom: 12rpx;"></image>
+								<image wx:elif="{{ item.pos == 2 }}" 	class="" src="https://static.zuiqiangyingyu.cn/wechatApp/banma_song/src/public/images/rank_02.png" style="width: 74rpx; height: 64rpx; margin-bottom: 12rpx;"></image>
+								<image wx:elif="{{ item.pos == 3 }}" 	class="" src="https://static.zuiqiangyingyu.cn/wechatApp/banma_song/src/public/images/rank_03.png" style="width: 74rpx; height: 64rpx; margin-bottom: 12rpx;"></image>
+								<view wx:else class="num maincolor_03">{{item.pos}}</view>
+							</view>
+							<view style="display: flex; align-items: center; width: 100%; ">
+								<image class="user_ar" src="{{item.avatar}}" style="width: 90rpx; height: 90rpx; margin-right: 12rpx;"></image>
+								<view class="user_name maincolor_fff" style="">
+									<view class="text_size03" style="margin-bottom: 6rpx;">{{item.nickname}}</view>
+									<view class="text_size02"><image src="../../img/yinfu_02.png" mode="widthFix" style="width: 26rpx; height: 26rpx; margin-right: 6rpx; "></image>{{item.score}}</view>
+								</view>
+							</view>
+						</view>
+						<view class="note maincolor_fff" style="width: 140rpx; margin-right: 24rpx; flex: none; text-align: right;">
+							<text class="your-style maincolor_04" style="font-size: 60rpx;">{{item.arena_score}}</text>分
+						</view>
+					</view> 
+					
+					<!--LOADING动画-->
+					<view id="" class="lading"  style="{{ is_lading ? '' : 'opacity: 0;'}}">
+						<view class="sk-circle">
+						  <view class="sk-circle1 sk-child"></view>
+						  <view class="sk-circle2 sk-child"></view>
+						  <view class="sk-circle3 sk-child"></view>
+						  <view class="sk-circle4 sk-child"></view>
+						  <view class="sk-circle5 sk-child"></view>
+						  <view class="sk-circle6 sk-child"></view>
+						  <view class="sk-circle7 sk-child"></view>
+						  <view class="sk-circle8 sk-child"></view>
+						  <view class="sk-circle9 sk-child"></view>
+						  <view class="sk-circle10 sk-child"></view>
+						  <view class="sk-circle11 sk-child"></view>
+						  <view class="sk-circle12 sk-child"></view>
+						</view>
+					</view>
+					
+					
+					
+				</scroll-view>
+		   
+			</swiper-item>
+			
+			<!--全球排行-->
+			<swiper-item >
+				<!--记录-->
+				<scroll-view class="list_box" bindscrolltolower="TOP_ALL" scroll-y="true" style="height:100%;  ">
+					
+					<view class="list" wx:for="{{top_all_list}}" wx:for-index="idx" wx:key="{{item.pos}}">
+						<view class="user_msg">
+							<view class="display_flex" style="width: 140rpx;  flex: none; ">
+								<image wx:if="{{ item.pos == 1 }}" 	class="" src="https://static.zuiqiangyingyu.cn/wechatApp/banma_song/src/public/images/rank_01.png" style="width: 74rpx; height: 64rpx; margin-bottom: 12rpx;"></image>
+								<image wx:elif="{{ item.pos == 2 }}" 	class="" src="https://static.zuiqiangyingyu.cn/wechatApp/banma_song/src/public/images/rank_02.png" style="width: 74rpx; height: 64rpx; margin-bottom: 12rpx;"></image>
+								<image wx:elif="{{ item.pos == 3 }}" 	class="" src="https://static.zuiqiangyingyu.cn/wechatApp/banma_song/src/public/images/rank_03.png" style="width: 74rpx; height: 64rpx; margin-bottom: 12rpx;"></image>
+								<view wx:else class="num maincolor_03">{{item.pos}}</view>
+							</view>
+							<view style="display: flex; align-items: center; width: 100%; ">
+								<image class="user_ar" src="{{item.avatar}}" style="width: 90rpx; height: 90rpx; margin-right: 12rpx;"></image>
+								<view class="user_name maincolor_fff" style="">
+									<view class="text_size03" style="margin-bottom: 6rpx;">{{item.nickname}}</view>
+									<view class="text_size02"><image src="../../img/yinfu_02.png" mode="widthFix" style="width: 26rpx; height: 26rpx; margin-right: 6rpx; "></image>{{item.score}}</view>
+								</view>
+							</view>
+						</view>
+						<view class="note maincolor_fff" style="width: 140rpx; margin-right: 24rpx; flex: none; text-align: right;">
+							<text class="your-style maincolor_04" style="font-size: 60rpx;">{{item.arena_score}}</text>分
+						</view>
+					</view> 
+					<!--LOADING动画-->
+					<view id="" class="lading"  style="{{ is_lading ? '' : 'opacity: 0;'}}">
+						<view class="sk-circle">
+						  <view class="sk-circle1 sk-child"></view>
+						  <view class="sk-circle2 sk-child"></view>
+						  <view class="sk-circle3 sk-child"></view>
+						  <view class="sk-circle4 sk-child"></view>
+						  <view class="sk-circle5 sk-child"></view>
+						  <view class="sk-circle6 sk-child"></view>
+						  <view class="sk-circle7 sk-child"></view>
+						  <view class="sk-circle8 sk-child"></view>
+						  <view class="sk-circle9 sk-child"></view>
+						  <view class="sk-circle10 sk-child"></view>
+						  <view class="sk-circle11 sk-child"></view>
+						  <view class="sk-circle12 sk-child"></view>
+						</view>
+					</view>
+				</scroll-view>
+			</swiper-item>	
+		</swiper>					
+	</view>
+	
+</view>

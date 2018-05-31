@@ -1,0 +1,27 @@
+1.数据绑定的使用：{{ }}
+
+2.列表渲染：<view wx:for="{{list}}" wx:for-index="idx" wx:key="{{item.pos}}">
+			  {{index}}: {{item.message}}
+			</view>
+需要使用 wx:key 来指定列表中项目的唯一的标识符。
+
+3.条件渲染
+<view wx:if="{{length > 5}}"> 1 </view>
+<view wx:elif="{{length > 2}}"> 2 </view>
+<view wx:else> 3 </view>
+
+wx:ifvshidden
+因为wx:if之中的模板也可能包含数据绑定，所以当wx:if的条件值切换时，框架有一个局部渲染的过程，因为它会确保条件块在切换时销毁或重新渲染。
+
+同时wx:if也是惰性的，如果在初始渲染条件为false，框架什么也不做，在条件第一次变成真的时候才开始局部渲染。
+
+相比之下，hidden就简单的多，组件始终会被渲染，只是简单的控制显示与隐藏。
+
+一般来说，wx:if有更高的切换消耗而hidden有更高的初始渲染消耗。因此，如果需要频繁切换的情景下，用hidden更好，如果在运行时条件不大可能改变则wx:if较好。
+
+
+4.微信小程序的事件：
+key以bind或catch开头，然后跟上事件的类型，如bindtap, catchtouchstart
+value是一个字符串，需要在对应的Page中定义同名的函数。不然当触发事件的时候会报错。
+
+bind事件绑定不会阻止冒泡事件向上冒泡，catch事件绑定可以阻止冒泡事件向上冒泡。

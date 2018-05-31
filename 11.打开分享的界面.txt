@@ -1,0 +1,21 @@
+1.
+<button class="boxshadow_01 pop_button_01 maincolor_bg_02 maincolor_fff text_size03" open-type="share" style="position: relative; margin-top: 36rpx; width: 500rpx; margin-bottom: 140rpx;">
+	查看群排名
+</button>
+
+2.需要设置的title和图片等
+var let_title = that.data.userInfo.nickName + '恭喜阶段性胜利了！继续关注猜歌达人，全新关卡等着你喔' ;
+var let_title = app.GetArrTarge(that.data.shareTitle);  //随机出现文案
+var let_imageUrl = 'https://static.zuiqiangyingyu.cn/wechatApp/banma_song/src/public/images_04/'+app.GetArrTarge(['shae_bg_10','shae_bg_11','shae_bg_12' ,,'shae_bg_13'])+'.jpg';
+		
+		
+3.函数： onShareAppMessage
+页面跳转： bindViewTap_three
+
+
+
+4.
+//05.25修改
+var arrTarge = app.shareTitleImg('song')
+var let_title = arrTarge.title
+var let_imageUrl = arrTarge.imageUrl

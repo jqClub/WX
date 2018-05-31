@@ -1,0 +1,49 @@
+https://www.jianshu.com/p/8a2a730d9e60
+1.新建components文件夹，新建login的文件夹（内含对应的 json wxml wxss js 4个文件）
+
+2.在login.json里面添加
+{
+  "component": true,        // 自定义组件声明
+  "usingComponents": {}     // 可选项，用于引用别的组件
+}
+
+3.login.js里面添加方法和属性
+  methods: {
+			//授权登陆操作
+			bindGetUserInfo: function(e) {
+					var that = this ;
+			    app.getUserInfo({
+			    	type:'login',
+			    	success : function( res ){
+			    		console.log(res)
+			    		//微信小程序是，通过triggerEvent来给父组件传递信息的
+							that.triggerEvent('login', res )
+			    	}
+			    })
+			},
+  }
+
+4.在index.json中引入组件
+{
+  "usingComponents": {
+    "login": "/components/login/login"
+  }
+}
+在index.wxml中引入它
+<!--登陆模块，监听login事件-->
+	<login class="initial_view_box" bind:login="onlogin"></login>
+	
+index.js 配置事件
+//监听登陆事件
+	onlogin : function(e){
+		var that = this ;
+		that.setData({
+			userInfo: app.data.userInfo,
+			getSystemInfo: app.data.getSystemInfo,
+			initial_show: false
+		})
+		//获取今日登陆奖励
+		that.LOGIN_REWARD();
+		that.INDEXDL();
+	},
+

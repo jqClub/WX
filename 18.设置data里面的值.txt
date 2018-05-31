@@ -1,0 +1,8 @@
+changePerson:function(e){
+var that = this
+    var str = 'person.name';
+    that.setData({
+      [str]: 'fxjzzyo'
+    })
+  },
+ 

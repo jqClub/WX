@@ -1,0 +1,8 @@
+//需要登陆
+if(typeof(app.data.userInfo.token) == 'string' && app.data.userInfo.token.length > 0) {
+	that.ConnectSocket(function(){
+		that.TOP_ALL(function(){that.TOP_FRIEND();});
+	});
+} else {
+	return
+}

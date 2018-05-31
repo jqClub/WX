@@ -1,0 +1,93 @@
+1.<!--button formType属性两个可选值submit, reset分别会触发form的bindsubmit，bindreser事件 -->
+<button class="boxshadow_01 pop_button_01 maincolor_02" catchtap="bindViewTap_three" data-targe="arena_game" formType="submit"  style="background: #fbe945; width: 460rpx; height: 90rpx; margin-top: 40rpx;">
+	开始挑战
+</button>
+
+2.跳转的逻辑
+	//页面跳转 3
+	bindViewTap_three: function(e) {
+		var that = this;	
+		//获得临时对象
+		var targe_id = e.target.dataset.targe;  //获取这个自定义的targe数据
+		var data = e.target.dataset.data;      //可以设置跳转所带的参数
+		var type = e.target.dataset.type;	   //打开的方式
+		
+		
+		//需要登陆
+		if( typeof(app.data.userInfo.token) == 'string' && app.data.userInfo.token.length>0  ){}else{
+    		that.get_grant_again(function(){   //重新授权
+				app.bindViewTap_three(targe_id,data,type,that.data.index)	
+    		});
+    		return
+		}
+		
+		switch ( targe_id ){
+			case 'arena_game':
+				//可以做不同页面的操作		
+				if( that.data.ring.user.ticket ){
+					app.bindViewTap_three(targe_id,data,type,that.data.index)	
+					// app.bindViewTap_three('challenge_index', '?bingo=bingo', 'redirectTo')   //'redirectTo'--清掉当前的页面
+				}else{
+					that.setgame_state(3)
+				}
+				break;
+			default:
+				app.bindViewTap_three(targe_id,data,type,that.data.index)	
+				break;
+		}
+		
+		clearInterval(that.timer);      //清除当前页面中的定时器等
+		
+	},
+	
+3.这个是app里面页面跳转的逻辑	
+	//页面跳转 3
+	bindViewTap_three: function( targe_id, data , type , targe_from ) {
+		var that = this;
+		//频率控制
+		if( that.gettimestamp() - that.data.function_time < that.data.frequency ){console.log('点太快了你');return}
+		that.data.function_time = that.gettimestamp();
+		var let_url = '../' + targe_id + '/' + targe_id;
+		if(data) { let_url = let_url + data }
+		switch (type){
+			case 'navigateTo':
+//				console.log('navigateTo')
+				wx.navigateTo({url: let_url})
+				break;
+			case 'redirectTo':
+//				console.log('redirectTo')
+				wx.redirectTo({url: let_url})
+				break;
+			case 'switchTab':
+//				console.log('switchTab')
+				wx.switchTab({url: let_url})			
+				break;
+			case 'reLaunch':
+//				console.log('reLaunch')
+				wx.reLaunch({url: let_url})			
+				break;
+			case 'navigateBack':
+//				console.log('navigateBack')
+				wx.navigateBack({ delta: 1 })		
+				break;
+			default:
+//				console.log('default')
+				wx.navigateTo({url: let_url})
+				break;
+		}
+		//腾讯统计
+		that.mta.Event.stat( targe_from+'_to_'+targe_id,{} )
+		console.log(targe_from+'_to_'+targe_id , let_url)
+	},
+targe_id:要跳转到的页面
+data：所带的参数
+type：打开的方式，见下面的解释
+that.data.index： 跳转过去的页面，用于腾讯统计数据
+
+
+'navigateTo':// 保留当前页面，跳转到应用内的某个页面，使用wx.navigateBack可以返回到原页面。(不传的话，是默认这个方式)
+'redirectTo': 关闭当前页面，跳转到非tabBar的某个页面
+'switchTab': // 跳转到tabBar页面（在app.json中注册过的tabBar页面），同时关闭其他非tabBar页面。
+'reLaunch': // 关闭所有页面，打开到应用内的某个页面。
+'navigateBack': // 关闭当前页面，返回上一页面或多级页面。可通过 getCurrentPages() 获取当前的页面栈，决定需要返回几层。
+

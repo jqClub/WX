@@ -1,0 +1,25 @@
+1.消息提示
+wx.showToast({
+  title: '挑战成功即可领奖',
+  icon: 'none',
+  duration: 2000
+})
+//带对勾的
+ wx.showToast({  
+	title: '成功',  
+	icon: 'success',  
+	duration: 2000  
+})
+
+2.模拟弹窗
+wx.showModal({
+  title: '有未完成的挑战',
+  confirmText:'好的',
+  showCancel:false,
+  content: '放弃了挑战，损失了一张门票' ,
+  success: function(res) {
+  }
+})
+
+
+  

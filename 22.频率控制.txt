@@ -1,0 +1,3 @@
+//		//频率控制
+		if( app.gettimestamp() - app.data.function_time < app.data.frequency ){return}
+		app.data.function_time = app.gettimestamp();

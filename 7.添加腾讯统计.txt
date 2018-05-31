@@ -1,0 +1,2 @@
+//腾讯统计
+app.mta.Page.init();

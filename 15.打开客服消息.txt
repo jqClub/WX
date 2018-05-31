@@ -1,0 +1,9 @@
+1.<!--小助手-->
+<button class="" open-type="contact" catchtap="H_KF" formType="submit">
+	<view>联系客服</view>
+ </button>	
+				 
+				 
+2.js里面的方法：
+//小程序客服消息
+H_KF : function() {app.H_KF();},

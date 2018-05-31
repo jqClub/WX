@@ -1,0 +1,3 @@
+设置：wx.setStorage({ key:'first_play', data:1 })
+
+获取： wx.getStorageSync('first_play');

@@ -1,0 +1,74 @@
+1.wxml结构
+<swiper-item >
+	<scroll-view class="list_box" bindscrolltolower="TOP_ALL" scroll-y="true" style="height:100%;  ">
+	</scroll-view>
+</swiper-item >
+
+2.在js里面写接口请求的数据
+//查询全球排行(去请求接口)
+	TOP_ALL: function(callback) {
+		log('请求了TOP_ALL接口数据')
+		var that = this;
+		log(`that.data: ${JSON.stringify(that.data)}`)
+		
+		var let_data = {
+			token 			: that.data.userInfo.token		,
+			wechat_type		: app.data.logmsg.wechat_type	,
+		}
+				
+//		try{
+//			if( that.data.page_a > that.data.draw_list.num_page-0 ){return}
+//		}catch(e){}
+				
+		let_data.from 	= that.data.page_a ;
+		let_data.to 	= that.data.page_a - 1 + that.data.pagenum ;	
+		
+//		console.log('111--- from', let_data.from, ' old_page_b', that.data.old_page_a ,  let_data.from == that.data.old_page_a )
+		if( let_data.from  == that.data.old_page_a ){console.log('正在加载请稍等');return}
+		if( that.data.page_a > 200 ){return}
+		
+		that.setData({
+			is_lading	: true,
+			old_page_a 	: that.data.page_a
+		})
+		
+		log(`let_data: ${JSON.stringify(let_data)}`)
+		wx.request({
+			url: app.data.API.TOP_ARENA_ALL,
+			data:let_data,
+			header: {'content-type': 'application/json'},
+			success: function(res) {
+				console.log('TOP_ALL', res)
+				if(res.data.c == '0') {
+					
+					var let_list = that.data.top_all_list;
+					let_list = let_list.concat(res.data.d.list);	
+				
+					var page_a = let_data.to - 0 +1 ;
+					
+					that.setData({
+						top_all			: res.data.d,
+						top_all_list	: let_list,
+						page_a 			: page_a,
+						is_lading		: false,
+						old_page_a 		: 0
+					})
+					
+					if( typeof(callback)=='function'){callback()}
+					
+				}else if (res.data.c == '4') {
+					//请求题目失败
+//					console.info("查询全球排行", res);
+					that.get_grant_again(function(){that.TOP_ALL();})
+					that.setData({old_page_a 		: 0,is_lading		: false,})
+				}else{
+					//请求题目失败
+					console.info("查询全球排行 失败", res);
+					that.setData({old_page_a 		: 0,is_lading		: false,})
+				}
+			},
+			fail: function(e) {
+				console.info("查询全球排行 失败", e);
+			}
+		})
+	},

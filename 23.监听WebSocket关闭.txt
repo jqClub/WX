@@ -1,0 +1,10 @@
+ //开始监听WebSocket关闭。
+wx.onSocketClose(function(res) {
+	app.data.socketOpened = false;
+	console.log('WebSocket 已关闭！',app.data.socketOpened)
+	//查询消息
+	app.SendSocketMessage('','');
+	if( that.data.is_game_open ){
+		wx.showToast({ title: 'WebSocket 已断开正在重连' ,icon: 'none',duration: 500})	
+	}
+})

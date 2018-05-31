@@ -1,0 +1,13 @@
+//重新授权
+get_grant_again: function() {
+	var that = this;
+	app.GET_GRANT_AGAIN(function(res) {
+		that.setData({
+			userInfo: app.data.userInfo,
+			initial_show: false
+		})
+		that.ConnectSocket(function(){
+			that.TOP_ALL(function(){that.TOP_FRIEND();});
+		});
+	});
+},

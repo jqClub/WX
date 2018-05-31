@@ -1,0 +1,14 @@
+//设置状态的方法
+setgame_state: function(code, callback, type) {
+	var that = this;
+	try {
+		code = code.target.dataset.code ? code.target.dataset.code : code;
+	} catch(e) {}
+	that.setData({
+		game_state: code
+	})
+	if(code == 2) {
+		//更新用户数据
+		that.ggData()
+	}
+}

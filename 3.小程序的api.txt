@@ -1,0 +1,6 @@
+1.登录接口wx.login(OBJECT)
+2.获取用户信息的方法wx.getUserInfo
+3.wx.getStorage(OBJECT),从本地缓存中同步获取指定 key 对应的内容。
+4.wx.setNavigationBarTitle({title: '猜歌达人'}) 设置页面title显示
+wx.setNavigationBarColor //设置导航条
+wx.connectSocket(OBJECT) //创建一个 WebSocket 连接

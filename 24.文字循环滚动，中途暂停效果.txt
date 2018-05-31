@@ -1,0 +1,105 @@
+1.html文件
+```
+<view class="">
+	<view class="" wx:for="{{doommData}}" wx:key style="animation:fadeInOut {{item.time}}s ease both;">
+		{{item.text.nickname}}
+	</view>
+</view>
+```
+
+2.css样式
+```
+@-webkit-keyframes fadeInOut{
+0%{
+-webkit-transform:translateY(30px)}
+10%{
+-webkit-transform:translateY(0)}
+90%{
+-webkit-transform:translateY(0)}
+100%{
+-webkit-transform:translateY(-30px)}
+}
+```
+
+3.js 文件里面的
+1)js文件内容全局变量（这里不用改，直接拿过去）
+```
+var page = undefined;
+var doommList = [];
+var danmu_Timeout;
+var danmu_num = 0;
+var doomm_danmu_Timeout = 0;
+class Doomm {
+	constructor(text, top, time) {
+		this.text = text;
+		this.top = top;
+		this.time = time;
+		let that = this;
+		doomm_danmu_Timeout = setTimeout(function() {
+			doommList.splice(doommList.indexOf(that), 1); //动画完成，从列表中移除这项
+			page.setData({
+				doommData: doommList
+			})
+		}, this.time * 1000) //定时器动画完成后执行。
+	}
+}
+```
+2)Page里面的设置
+```
+Page({
+	data: {	
+		Winners_List: [],  //中奖者列表（获取对应的列表）
+		doommData: [],  //后面的列表数据（可不改）
+	},
+	onShow() {
+		//在onShow文件里添加下面
+		page = this;
+	},
+	onUnload: function() {
+		var that = this;
+
+		//取消定时器
+		clearTimeout(danmu_Timeout);
+	}
+	//滚动播报
+	radio_box: function() {
+		var that = this,
+			time = 3;
+
+		//取消定时器
+		clearTimeout(danmu_Timeout);
+
+		//没有则退出
+		//		if(!app.data.activity_config.reward_list){return}
+		//		var radio_list = app.data.activity_config.reward_list ;
+		//这里是设置获取到的列表数据，先判断是否为空。不为空，再进行下面的操作（注意，这里的数据名字需要你修改）
+		if(!that.data.Winners_List){return}   
+		var radio_list = that.data.Winners_List
+
+		doommList.push(new Doomm(radio_list[danmu_num], Math.ceil(Math.random() * 86), time));
+
+		that.setData({
+				doommData: doommList
+		})
+		danmu_num++;
+		if(danmu_num == radio_list.length) {
+			danmu_num = 0;
+		}
+		danmu_Timeout = setTimeout(function() {
+			that.radio_box()
+		}, time * 1000);
+	},
+	getData: function() {
+		var that = this
+		//请求接口并设置到data数据里面（注意：这里需要你去请求接口）
+		//getApi(function(res) {
+			//回调里面去设置数据，并调用接口
+			that.setData({
+					Winners_List: res.list
+			})
+			//调用radio_box方法
+			that.radio_box()
+		})	
+	},
+})
+```

@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "login": "../../component/login/login"
+  }
+}

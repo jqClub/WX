@@ -1,2 +1,2 @@
-ASDFASDF# WX
+# WX
 微信小程序相关
