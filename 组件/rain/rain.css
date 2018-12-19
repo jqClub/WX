@@ -1,0 +1,44 @@
+:host {
+  overflow: hidden;
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: -10rpx;
+  width: calc(100vw + 20rpx);
+  height: 100vh;
+  pointer-events: none;
+}
+
+.comp {
+	position: relative;
+	z-index: 99999;
+}
+
+.item {
+  position: absolute;
+  transform: translateY(-50px);
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+}
+@keyframes rain {
+  from {
+    transform: translate3d(0, -50px, 0);
+  }
+  to {
+    transform: translate3d(0, 105vh, 0);
+  }
+}
+
+.item__img {
+  animation: shaking 1.2s linear infinite;
+}
+/*晃动动画*/
+@keyframes shaking {
+  0%,
+  100% {
+    transform: rotate(-20deg);
+  }
+  50% {
+    transform: rotate(20deg);
+  }
+}

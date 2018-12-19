@@ -1,0 +1,7 @@
+<view class="comp" >
+  <block s-for="{{list}}">
+    <view class="item" style="left:{{item.left}}%;animation-name:{{isPlay&&'rain'}};animation-duration:{{item.time}}s;animation-delay:{{item.delay}}s;">
+      <image class="item__img" style="width:{{item.size}}px;height:{{item.size}}px;" src="{{ item.img }}"></image>
+    </view>
+  </block>
+</view>
