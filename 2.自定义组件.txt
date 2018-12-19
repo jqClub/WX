@@ -1,4 +1,22 @@
-https://www.jianshu.com/p/8a2a730d9e60
+https://www.jianshu.com/p/8a2a730d9e60u
+--------------------------------------------------------
+使用自定义弹窗（https://www.jianshu.com/p/8a2a730d9e60）
+1.onLoad(options) {
+        var that = this
+         //获得挑战机会+1 dialog组件
+    	that.dialog = this.selectComponent("#dialog");
+		}
+		
+		<!--挑战机会+1的组件-->
+		<dialog id='dialog'></dialog>
+		
+		引入文件json
+		
+		
+		var aboutShare  = require("../../utils/share.js") //分享相关
+--------------------------------------------------------
+
+//使用登陆的组件
 1.新建components文件夹，新建login的文件夹（内含对应的 json wxml wxss js 4个文件）
 
 2.在login.json里面添加

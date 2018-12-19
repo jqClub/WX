@@ -1,0 +1,207 @@
+<!--
+使用方法如下，默认为index	
+<wxad></wxad>
+-->
+<!--广告位
+歌单闯关首页
+<ad unit-id="adunit-7c2703078b89caec"></ad>
+歌单闯关-全部歌单
+<ad unit-id="adunit-d5c3e59f4349ef4a"></ad>-->
+
+<view style='position: relative;'>
+	<!--歌单闯关首页-->
+	<view wx:if="{{adType == 'song_index'}}">
+		<ad bindload="loadSuccess" data-style="song_index" unit-id="adunit-7c2703078b89caec"></ad>
+	</view>
+	<!--歌单闯关-全部歌单-->
+	<view wx:elif="{{adType == 'song_list'}}">
+		<ad bindload="loadSuccess" data-style="song_list" unit-id="adunit-d5c3e59f4349ef4a"></ad>
+	</view>
+	
+<!--09.14新增闯关结果页-->
+	<view wx:elif="{{adType == 'song_end'}}">
+		<ad bindload="loadSuccess" data-style="song_end" unit-id="adunit-ea0b547c01b57803"></ad>
+	</view>
+	
+	
+	<!--09.20新增在上面新增一个按钮的浮层-->
+	<view wx:elif="{{adType == 'match_index'}}">
+		<ad bindload="loadSuccess" data-style="match_index" unit-id="adunit-0dd0c66b270d37e8"></ad>
+	</view>
+	<view wx:elif="{{adType == 'song_timu'}}">
+		<ad bindload="loadSuccess" data-style="song_timu" unit-id="adunit-a2ed5e8e241d4260"></ad>
+	</view>
+	
+		<!--09.20新增在上面新增一个按钮的浮层-->
+	<view wx:if="{{ipShow}}" class="child_center" style="pointer-events: none;">
+  		<image class="ad_btn" src="https://static.zuiqiangyingyu.cn/admin/1809/clickMe.gif" mode="widthFix"></image>
+  	</view>
+</view>
+   
+
+/////////////////////////////////////////////////////////////////
+
+
+//获取应用实例
+var app = getApp();
+
+var log = console.log.bind(log)
+
+// components/Dialog/dialog.js
+Component({
+  options: {
+    multipleSlots: true // 在组件定义时的选项中启用多slot支持
+  },
+  /**
+   * 组件的属性列表
+   * 用于组件自定义设置
+   */
+  properties: {
+    // 弹窗标题
+    adType: {            // 属性名
+      type: String,     // 类型（必填），目前接受的类型包括：String, Number, Boolean, Object, Array, null（表示任意类型）
+//    value: 1     // 属性初始值（可选），如果未指定则会根据类型选择一个
+    },
+    // 弹窗内容
+    showBtn: {
+      type: Boolean,
+      value: true,
+    },
+    // 弹窗内容
+//  content: {
+//    type: String,
+//    value: '弹窗内容'
+//  },
+//  // 弹窗取消按钮文字
+//  cancelText: {
+//    type: String,
+//    value: '取消'
+//  },
+//  // 弹窗确认按钮文字
+//  confirmText: {
+//    type: String,
+//    value: '确定'
+//  }
+  },
+
+  /**
+   * 私有数据,组件的初始数据
+   * 可用于模版渲染
+   */
+  data: {
+    // 弹窗显示控制
+    isShow: false, 
+    loadSuccess: false,
+  },
+  /* 组件 ,设置外部样式 */
+  externalClasses: ['my-class'],
+
+  /**
+   * 组件的方法列表
+   * 更新属性和数据的方法与更新页面数据的方法类似
+   */
+  methods: {
+  //這个方法只能在2.2.1以上的版本可以使用
+  	loadSuccess: function(e) {
+  		var that = this
+  		var btnStyle = e.target.dataset.style
+  		
+  		var adType = that.data.adType
+			log('广告加载', e, btnStyle, adType)
+  		
+			if(btnStyle == adType) {
+				that.setData({
+	  			loadSuccess: true,
+	  		})
+	  		log('广告是否加载成功', that.data.loadSuccess)
+	  		
+	  		//延迟一点去，设置ipShow的值
+			  setTimeout(function() {
+			  	that.setData({
+			        ipShow: app.data.ipShow || false,
+			      })
+			  	
+			  	console.log('是否显示引导button', that.data.ipShow, app.data.ipShow)
+			  }, 1000)
+			}	
+  	},
+    /*
+     * 公有方法
+     */
+
+    //隐藏弹框
+//  hideDialog() {
+//    this.setData({
+//      isShow: !this.data.isShow
+//    })
+//  },
+//  //展示弹框
+//  showDialog() {
+//    this.setData({
+//      isShow: !this.data.isShow
+//    })
+//  },
+//  /*
+//  * 内部私有方法建议以下划线开头
+//  * triggerEvent 用于触发事件
+//  */
+//  _cancelEvent() {
+//    //触发取消回调
+//    this.triggerEvent("cancelEvent")
+//  },
+//  _confirmEvent() {
+//    //触发成功回调
+//    this.triggerEvent("confirmEvent");
+//  }
+ },
+  ready: function() {
+ 	var that = this
+// 	if(!that.data.loadSuccess) {
+// 		return
+// 	}
+ 	
+ 	
+// 	//延迟一点去，设置ipShow的值
+//setTimeout(function() {
+//	that.setData({
+//      ipShow: app.data.ipShow || false,
+//    })
+//	
+//	console.log(that.data.ipShow, app.data.ipShow)
+//}, 500)
+ }
+})   
+
+-----------------------------------------------
+09.27需要修改页面
+
+//获取应用实例
+var app = getApp();
+
+var log = console.log.bind(log)
+
+
+loadSuccess: function(e) {
+  		var that = this
+//		log(111111, e)
+  		var btnStyle = e.target.dataset.style
+  		
+  		var adType = that.data.adType
+			log('广告加载', e, btnStyle, adType)
+  		
+			if(btnStyle == adType) {
+				that.setData({
+	  			loadSuccess: true,
+	  		})
+	  		log('广告是否加载成功', that.data.loadSuccess)
+	  		
+	  		//延迟一点去，设置ipShow的值
+			  setTimeout(function() {
+			  	that.setData({
+			        ipShow: app.data.ipShow || false,
+			      })
+			  	
+			  	console.log(that.data.ipShow, app.data.ipShow)
+			  }, 500)
+			}	
+  	},

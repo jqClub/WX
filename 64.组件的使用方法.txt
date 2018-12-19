@@ -1,0 +1,33 @@
+<!--
+	-小程序跳转的模块
+	-使用方法:小程序跳转的组件
+	1.页面json文件中引入组件
+	{
+	  "usingComponents": {
+	    "navigateToMiniProgram": "../../component/wd-navigateToMiniProgram/wd-navigateToMiniProgram"
+	  }
+	}
+	
+	2.html页面中使用
+	<block wx:for="{{more_fun}}" wx:key="more_fun">
+		<navigateToMiniProgram appData="{{item}}" mta="{{'more_fun'+index}}" bind:ToMiniProgram="toMiniProgram">
+			//<image class="more_fun_img" src="{{item.icon}}"></image>
+			//这里放图片等等
+		</navigateToMiniProgram>
+	</block>
+	
+	3.页面js文件中使用,放在页面Page的对象参数中
+	toMiniProgram: function(e) {
+		var that = this
+		//e是传递过来的参数
+		var clickChild= e.detail
+		log(`clickFather: ${JSON.stringify(clickChild)}`)
+		
+		//监听腾讯统计的事件等
+		var mta = clickChild.mta
+		log('mta')
+	},
+	-注意事项:********
+	在父页面中，ToMiniProgram函数可以拿到传递过去的所有数据（var clickFather = e.detail）其中可以直接拿到appid, path, data。
+	@author: 姜奇(604799292@qq.com)
+-->

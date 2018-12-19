@@ -1,0 +1,45 @@
+1.for循环
+<block wx:for="{{[1, 2, 3]}}" wx:key="unique">
+  <view> {{index}}: </view>
+  <view> {{item}} </view>
+</block>
+
+<view wx:for="{{array}}" wx:key="unique">
+  {{index}}: {{item.message}}
+</view>
+
+
+
+2.if循环
+<view wx:if="{{length > 5}}"> 1 </view>
+<view wx:elif="{{length > 2}}"> 2 </view>
+<view wx:else> 3 </view>
+
+<button bindtap="openShop" formType="submit">
+
+</button>
+
+3.//设置状态
+    setgame_state : function(code){
+        
+        var that = this ;
+        var letcode = that.data.game_state ;
+        try{code = code.target.dataset.code? code.target.dataset.code : code;   }catch(e){}
+        
+        that.setData({game_state    :   code,})
+    },
+	
+	try{var sharetype = e.target.dataset.sharetype;}catch(e){}
+	try{var sharetype = e[0].target.dataset.sharetype;}catch(e){}
+	
+	
+4.事件绑定和冒泡
+bind事件绑定不会阻止冒泡事件向上冒泡，catch事件绑定可以阻止冒泡事件向上冒泡。
+bindtap /catchtap
+
+<button catchtap="bindViewTap_three">
+	开始挑战
+</button>
+
+5.
+<image class="week_worder_img1  absolute_left" src="../../img/1.png"></image>

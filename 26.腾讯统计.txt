@@ -1,7 +1,0 @@
-//腾讯统计
-app.mta.Event.stat( 'share_'+that.data.index,{} )	
-
-
-//app里面有封装好的方法
-//05.25腾讯统计
-app.mtaShare(that.data.index, type)

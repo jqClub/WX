@@ -1,0 +1,206 @@
+//////////////////////////////////////////////
+//	广州勇往科技有限公司 前端技术规范 
+//	@Copyright (c) 2013 Wonder
+//	@author: 周梓涛 (284548593@qq.com)
+//	@version: 1.0.0  2018.7.10
+//////////////////////////////////////////////
+
+
+
+//////////////////////////////////////////////
+//	一个优异的工程师和一个一般工程师的区别，不是现在满天飞的架构图，他的功底就是表现在他写的每一行代码上。他人都说咱们是码农，但咱们知道，自己是个艺术家。
+//	或许咱们不过多介意自己的表面和穿戴，但咱们不羁的表面下，骨子里追求着代码的美、质量的美。而代码规约其实就是一个对美的解说。
+//////////////////////////////////////////////
+//	前端开发规范目的：
+//		1.提高团队协作效率，便于后期其他成员添加功能及优化维护,输出高质量的文档，同时为网站有一个更好的前端架构及应用的发展及未来打好一个基础。
+//		2.提升页面性能，书写简洁明了有序的代码，尽可能的减小服务器负载，保证最快的解析速度。
+//		3.提升公司各款产品间的兼容性，模块搬来即用，实现前端快速开发。
+//////////////////////////////////////////////
+
+
+
+
+一.HTML/WXML 规范
+	1.注释
+		
+		(1).【强制】页面各部分单行注释:
+			<!--滑动banner-->
+			<!--商品列表-->
+		
+		(2).【强制】自定义组件注释:
+			<!--
+				-***模块
+				-使用方法:****
+				-注意事项:********
+				@author: 周梓涛 (284548593@qq.com)
+			-->
+		
+		(3).其他:
+   			<!--注意：同一页面中的 canvas-id 不可重复，如果使用一个已经出现过的 canvas-id，该 canvas 标签对应的画布将被隐藏并不再正常工作-->
+   			
+   			
+   			
+   	2.命名规则
+   		
+   		(1).【强制】页面文件(html/wxml)命名以全小写为准，不包含其他特殊符号和数字。(方便腾讯移动分析进行漏斗统计)		
+   		
+   		(2).【强制】自定义组件命名  <wd-****></wd-****>     (wonder)
+   		
+   	3.文件夹
+   	
+        images			图片文件 
+        pages			页面文件
+        utils			类库文件
+        component		组件文件
+   		wd-README.md	项目说明文件 - （ 页面描述 / 自定义组件描述 / 参与成员.参与时间  / 修改时间 ）
+   			//////////////////////////////////////////////
+			//	广州勇往科技有限公司 猜歌达人 
+			//	@Copyright (c) 2018 Wonder
+			//	@author: 周梓涛 (284548593@qq.com)  2017.9.10
+			//			   姜奇 (284548593@qq.com)  2018.3.10
+			//	@version: 1.0.0  2018.7.10
+			//////////////////////////////////////////////
+			1.页面描述：**
+			2.自定义组件描述：**
+   	
+   	4.【强制】代码缩进与格式: 一个Tab （4个空格）
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+   	
+二.CSS/WXSS 规范
+
+	1.注释
+	
+		(1).【强制】单行注释:
+			/*通用样式*/
+			/*颜色*/
+			
+		(2).【强制】多行注释:
+			/* *
+			 *
+			 * 通用动画
+			 * 
+			 * */
+			
+	2.命名规则
+		
+		(1).【强制】命名规则
+			ID采用驼峰式命名法,如:mainMenuNav、subContentList等
+			Class采用下划线命名法,如:name_list、main_menu_content等
+			通用样式命名： wd_****  
+		
+		(2).【推荐】通用名称
+			头:header 
+			内容:content/container 
+			尾:footer 
+			导航:nav 
+			侧栏:sidebar 
+			栏目:column 
+			页面外围控制整体布局宽度:wrapper 
+			左右中:left right center 
+			登录条:loginbar 
+			标志:logo 
+			广告:banner 
+			页面主体:main 
+			热点:hot 
+			新闻:news 
+			下载:download 
+			子导航:subnav 
+			菜单:menu 
+			子菜单:submenu 
+			搜索:search 
+			友情链接:friendlink 
+			页脚:footer 
+			版权:copyright 
+			滚动:scroll 
+			内容:content 
+			标签页:tab 
+			文章列表:list 
+			提示信息:msg 
+			小技巧:tips 
+			栏目标题:title 
+			加入:joinus 
+			指南:guild 
+			服务:service 
+			注册:regsiter 
+			状态:status 
+			投票:vote 
+			合作伙伴:partner 
+		
+	3.【推荐】布局定位统一使用 flex 布局 ( http://www.runoob.com/w3cnote/flex-grammar.html / https://www.cnblogs.com/xiaohuochai/p/5323146.html)
+
+	4.【推荐】css属性书写顺序, 建议遵循 布局定位属性-->自身属性-->文本属性-->其他属性. 此条可根据自身习惯书写, 但尽量保证同类属性写在一起. 
+			属性列举: 布局定位属性主要包括: margin、padding、float(包括clear)、position(相应的 top,right,bottom,left)、display、visibility、overflow等;
+			自身属性主要包括: width &; height &; background &; border; 文本属性主要包括:font、color、text-align、text-decoration、text-indent等;
+			其他属性包括: list-style(列表样式)、vertical-vlign、cursor、z-index(层叠顺序) 、zoom等.我所列出的这些属性只是最常用到的, 并不代表全部; 
+	
+	5.【参阅】书写代码前, 考虑并提高样式重复使用率; 以 wd-命名 / 自己代号加下划线起始, 比如i_clear;  
+		
+	6.【参阅】减少使用影响性能的属性, 比如position:absolute || float ; (能不用就不用)---之前小程序未成熟的时候iphone有时候会出BUG
+	
+
+
+
+
+
+
+
+三.JS 规范
+
+	1.命名规则：
+
+		(1).【强制】所有编程相关的命名严禁使用拼音与英文混合的方式，更不允许直接使用中文的方式。
+			说明：正确的英文拼写和语法可以让阅读者易于理解，避免歧义。注意，即使纯拼音命名方式也要避免采用。
+			反例： DaZhePromotion [打折] / getPingfenByName() [评分] / int 变量 = 3; 正例： ali / alibaba / taobao / cainiao / aliyun / youku / hangzhou 等国际通用的名称，可视为英文。
+			
+		(2).【强制】方法名、参数名、成员变量、局部变量都统一使用lowerCamelCase风格，必须遵从驼峰形式。 正例： localValue / getHttpMessage() / inputUserId
+		
+		(3).【强制】常量命名全部大写，单词间用下划线隔开，力求语义表达完整清楚，不要嫌名字长。 正例： MAX_STOCK_COUNT 反例： MAX_COUNT
+		
+		(4).【强制】抽象类命名使用Abstract或Base开头；异常类命名使用Exception结尾；测试类命名以它要测试的类的名称开始，以Test结尾
+		
+		(5).【强制】类名使用UpperCamelCase风格，必须遵从驼峰形式，但以下情形例外：（领域模型的相关命名）DO / DTO / VO / DAO等。 
+			正例：MarcoPolo / UserDO / XmlService / TcpUdpDeal / TaPromotion 反例：macroPolo / UserDo / XMLService / TCPUDPDeal / TAPromotion
+		
+		*避免单个字符名，让你的变量名有描述意义。
+		
+	2.语法规则：
+	
+		(1).【强制】 左括号和后一个字符之间不出现空格；同样，右括号和前一个字符之间也不出现空格。详见第5条下方正例提示。
+		
+		(2).【强制】if/for/while/switch/do等保留字与左右括号之间都必须加空格
+		
+		(3).【强制】任何运算符左右必须加一个空格。 说明：运算符包括赋值运算符=、逻辑运算符&&、加减乘除符号、三目运行符等。
+		
+		(4).【强制】代码块缩进4个空格，如果使用tab缩进，请设置成1个tab为4个空格。 
+		
+		(5).【推荐】具体的语法规范参考( https://yq.aliyun.com/articles/51488 )
+
+	3.注释
+		
+		(1).【强制】每个重点逻辑前加单行注释，注释前放一个空行
+			// set the default type to 'no type'
+			
+		(2).【强制】方法使用 /** ... */ 进行多行注释，包括描述，指定类型以及参数值和返回值
+			// good
+			/**
+			 * make() returns a new element
+			 * based on the passed in tag name
+			 *
+			 * @param <String> tag
+			 * @return <Element> element
+			 */
+		
+		(3).【推荐】更多注释标准参考( http://usejsdoc.org/?spm=a2c4e.11153940.blogcont51488.34.a46026dbjA4kB3 )
+	
+	4.【强制】当保存对 this 的引用时使用 that 或 self(python 风格)

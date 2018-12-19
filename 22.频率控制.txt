@@ -1,3 +1,37 @@
-//		//频率控制
-		if( app.gettimestamp() - app.data.function_time < app.data.frequency ){return}
-		app.data.function_time = app.gettimestamp();
+方法1：
+App({
+	data: {
+		//频率控制
+		function_time: 0,
+		frequency: 2,
+	},
+	//获得时间戳
+	gettimestamp: function() {
+		var let_timestamp = Date.parse(new Date()) + '';
+		let_timestamp = let_timestamp.substring(0, 10)
+		return let_timestamp
+	},
+})
+
+
+加在要控制的函数最前面
+//频率控制
+if( app.gettimestamp() - app.data.function_time < app.data.frequency ){return}
+app.data.function_time = app.gettimestamp();
+
+
+方法2：
+function throttle(fn, gapTime) {
+    if (gapTime == null || gapTime == undefined) {
+        gapTime = 1500
+    }
+
+    let _lastTime = null
+    return function () {
+        let _nowTime = + new Date()
+        if (_nowTime - _lastTime > gapTime || !_lastTime) {
+            fn()
+            _lastTime = _nowTime
+        }
+    }
+}

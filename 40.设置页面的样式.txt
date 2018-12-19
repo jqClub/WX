@@ -1,0 +1,11 @@
+		wx.setNavigationBarColor({
+		    frontColor: '#ffffff',
+		    backgroundColor: '#48087B',
+		    animation: {
+		        duration: 400,
+		        timingFunc: 'easeIn'
+		    }
+		})
+		
+		 "navigationBarBackgroundColor": "#7401aa",
+    "backgroundColor": "#7401aa",

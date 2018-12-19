@@ -1,0 +1,7 @@
+catchtap="clickAll" data-clicktype="rule"
+
+
+//10.09新增
+  clickAll: function(e) {
+  	var clickType = e.target.dataset.clicktype
+  },

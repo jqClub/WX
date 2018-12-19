@@ -1,0 +1,11 @@
+1.修改马甲号的标识码和名字
+logmsg:{ 
+	wechat_type : 	'guess_song_happy',  //猜歌欢乐斗
+	wechat_name: '猜歌欢乐斗',
+}
+2.修改tsjiName的名字
+tsjiName: 'caigehuanledou',   //统计的事件名
+shareKey: "20180710",   //分享图片统计的名字
+3.再app.json里面，修改页面title的名字
+4.设置域名信息（把需要的域名全部加进去）
+绑定小程序的appid，不然会无法打开

@@ -1,0 +1,12 @@
+在page的json文件里加上"disableScroll": true
+
+
+height: 100vh;
+overflow: hidden;
+
+
+加上这个属性，就会禁止页面拉动。
+
+但是这里注意的是，在app.json里面写上这个属性并不会生效，一定要在page对应的页面的json文件加上才会生效
+
+备注：加上之后，整个页面无法下拉使用

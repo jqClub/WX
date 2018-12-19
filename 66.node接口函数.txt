@@ -1,0 +1,45 @@
+1.先在appBlog.js里注册函数
+// 导入 route/login 的所有路由数据
+const routeLogin = require('./route/login')
+registerRoutes(app, routeLogin.routes)
+
+2.
+var log = console.log.bind(console)
+const login = require('../model/login')
+
+var all = {
+    path: '/api/login/loginIn',
+    method: 'get',
+    func: function(request, response) {
+        //获取get的参数
+        var options = request.query
+        log(222222, options)
+        // var comments = comment.all()
+        // var r = JSON.stringify(comments)
+        // response.send(r)
+        response.send(form)
+    }
+}
+
+var all = {
+    path: '/api/login/loginIn',
+    method: 'post',
+    func: function(request, response) {
+        //获取post的参数
+        //         // 浏览器发过来的数据我们一般称之为 form (表单)
+        var form = request.body
+        log(1111, form)
+        // var comments = comment.all()
+        // var r = JSON.stringify(comments)
+        // response.send(r)
+        response.send(form)
+    }
+}
+
+2.1如何获取get的参数：
+var options = request.query
+log('get参数', options)
+
+2.2如何获取post的参数：
+var form = request.body
+log('post参数', form)

@@ -1,0 +1,15 @@
+https://zhuanlan.zhihu.com/p/23536784
+易错点：
+1.小程序CSS里的 :focus 不生效，需要修改placehoder的样式，通过placeholder-class=”class”来定义。
+2.小程序的image与HTML5的img最大的区别在于：小程序的image是按照background-image来实现的。 默认image的高宽是320*240。必须通过样式定义去覆盖这个默认高宽，auto在这里不生效。（要求一定要设置一个高度和宽度）
+
+//CSS相关
+顶部距离上面15rpx的距离或者
+顶部距离上面20rpx的距离
+----------------------------------------------------------------------------------------------------------------
+其他
+
+1. text-decoration-line: underline;  /*显示下划线*/
+
+
+2. word-break:break-all;   /* 换行*/

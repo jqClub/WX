@@ -1,0 +1,24 @@
+<!--07.12新增显示底部的游戏盒子-->
+		<view wx:if="{{more_fun2.appid}}" bindtap="ad_navigateToMiniProgram">
+			<navigator target="miniProgram" open-type="navigate" app-id="{{more_fun2.appid}}" path="{{more_fun2.page}}" extra-data="{{more_fun2.extra}}" version="release" hover-class="none">
+				<button class="display_flex" data-appid="{{more_fun2.appid}}" data-path="{{more_fun2.page}}" data-data="{{more_fun2.extra}}" formType="submit">		
+					<view class='mini_app_view' style="font-size: 24rpx; margin: 0; margin-top: 57rpx;">
+						游戏盒子
+					</view>
+				</button>
+			</navigator>
+		</view>
+		
+
+		
+在index.js里面加上
+
+1）data里加上
+//07.12新增底部的游戏盒子
+more_fun2:  {}, 
+
+
+2）在设置more_fun下面加上
+马甲号：more_fun2: getData.more_fun[1],  //07.12新增游戏盒子,取数组里的第二个
+
+猜歌达人，取接口里more_fun2

@@ -21,3 +21,23 @@
 	
 	
 	2.放入index.json(文件名需要修改成对应的页面)
+	
+	{
+  "usingComponents": {
+    "login": "../../component/login/login"
+  }
+}
+
+	
+	
+	
+	
+		//重新授权
+	get_grant_again: function() {
+		var that = this;
+//		方法3，直接显示登陆的按钮--使用这个方法，直接登陆完后，直接开始题目
+		that.setData({
+			initial_show: true
+		})
+		return 
+	},

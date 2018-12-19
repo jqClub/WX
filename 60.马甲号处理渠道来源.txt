@@ -1,0 +1,94 @@
+1.引入文件aboutTsjiChannle.js
+2.app.js文件中onLaunch函数中
+//09.17新增渠道来源统计
+that.data.options = options
+
+在app.js里面新增
+channleMta: 'datiwanghomechannle',  //渠道来源统计数据
+
+3.在登陆函数中saveLoginData存储登陆函数中
+
+//09.17新增aboutTsjiChannle统计渠道来源
+var aboutTsjiChannle = require("./aboutTsjiChannle.js"); 
+
+log('------用户的uid------', data.user.uid)
+//09.17新增腾讯统计数据
+aboutTsjiChannle.channle(that)
+
+-------------------
+//使用下面的去判断是否授权
+//09.17点击了，授权的操作按钮
+app.data.intoNewAccredit = true
+
+
+
+1.查看分享的问题，发送完直接去删除mid
+2.share_about.js里面
+引入文件：
+//09.17新增统计
+var aboutTsjiChannle = require("./aboutTsjiChannle.js")  
+
+shareFirst函数里
+//09.17修改判断options中是否带有mid的，有的话，就去请求接口
+	if(options.mid) {
+		//09.15新增
+		var otherGetNewClick = getNewClick()
+		let ret = {
+			mid: options.mid,
+		}
+		ret = Object.assign(ret, otherGetNewClick)
+		
+		Share_material({
+			urlType: 'clickShare',
+			data: ret,
+			app: sData.app,
+		}, function() {
+			//清空分享的id,防止重复发送请求
+      		var str = 'options.mid';
+		    that.setData({
+		      [str]: '',
+		    })
+		})
+	}
+	
+	
+	//请求分享的接口
+var Share_material = function(sData, fun) {
+		if(res.c == '0') {
+			callBack({
+				urlType: sData.urlType,
+				data: res.d,
+				app: app,
+				page: sData.page, 
+			})
+			
+			if(typeof fun == 'function') {
+				fun()
+			}
+		} else {
+			//错误的提示
+			log(`res.m: ${res.m}`)
+		}
+})
+
+Share_material函数里面
+//09.17新增，统计分享
+aboutTsjiChannle.dealShare(sData.urlType, sData.data)
+
+-------------------
+3.升级方法的处理
+if(typeof wx.getUpdateManager != 'object') {
+	//這里因为wx.getUpdateManage是在1。9.9新增的方法，所以在之前的版本会报错
+	//也可以先去获取版本库号，再去判断，上面的方法没有区分数组和对象
+	return 
+}	
+
+-------------------
+腾讯后台新增这2个
+channle  渠道来源
+fenxiangtongji   分享统计
+
+新增一个事件id：datiwanghomechannle
+猜歌欢乐豆_0917渠道来源统计
+
+

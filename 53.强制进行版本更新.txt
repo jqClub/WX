@@ -1,0 +1,64 @@
+//更新的方法
+//强制更新的方法
+var update = function() {
+	if(typeof wx.getUpdateManager != 'object') {
+		//這里因为wx.getUpdateManage是在1.9.9新增的方法，所以在之前的版本会报错
+		//也可以先去获取版本库号，再去判断，上面的方法没有区分数组和对象
+		return 
+	}	
+
+	//发布新版本有些用户还是老版的，提示一下更新就可以立马变新版
+	const updateManager = wx.getUpdateManager()
+	// 检测版本更新
+	updateManager.onUpdateReady(function () {
+		wx.showModal({
+			title: '更新提示',
+			content: '新版本已经准备好，是否重启应用？',
+			success: function (res) {
+				if (res.confirm) {
+					// 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+					updateManager.applyUpdate()
+				}
+			}
+		})
+	});
+	updateManager.onCheckForUpdate(function (res) {
+		// 请求完新版本信息的回调
+		if (res.hasUpdate == false){
+				console.log("已更新到最新版")
+			}
+	});
+	updateManager.onUpdateFailed(function () {
+		// 新的版本下载失败
+	});
+}
+
+
+/////////////////////////////////////////////////////////////
+//原来的版本
+
+// 检测版本更新
+updateManager.onUpdateReady(function () {
+	wx.showModal({
+	title: '更新提示',
+	content: '新版本已经准备好，是否重启应用？',
+	success: function (res) {
+	if (res.confirm) {
+	// 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+	updateManager.applyUpdate()
+	}
+	}
+	})
+	});
+	updateManager.onCheckForUpdate(function (res) {
+	// 请求完新版本信息的回调
+	if (res.hasUpdate == false){
+		console.log("已更新到最新版")
+	}
+	});
+	updateManager.onUpdateFailed(function () {
+	// 新的版本下载失败
+});
+
+发布新版本有些用户还是老版的，提示一下更新就可以立马变新版
+const updateManager = wx.getUpdateManager()

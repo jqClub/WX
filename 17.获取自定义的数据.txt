@@ -1,1 +1,15 @@
 var num = e.target.dataset.num;
+var type = e.target.dataset.type;
+
+
+获取分享的信息
+try{var sharetype = e.target.dataset.sharetype;}catch(e){}
+try{var sharetype = e[0].target.dataset.sharetype;}catch(e){}
+
+
+
+<text id='{{index}}' data-title='{{item.name}}' data-price='{{item.price}}' bindtap='click'>
+// 根据得到的 id，去data里面找对应的具体数据
+var id = e.currentTarget.id;
+
+wx5bb1a679a52d3e84,wx52b8a026ab7fbfec,wxbb1390ad75bf7154,wx8b18e7dd829b73ff,wxe1b1e619b7f109f3,wx33f4f4bf0be97810,wxe09db14837e3bbbd,wx20194e7827347870,wx78caa30cd32c16b9,wxd101b6b8f64db085

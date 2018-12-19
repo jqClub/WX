@@ -1,2 +1,47 @@
+07.18最新的方法
+1. 在小程序开发设置中，将https://pingtas.qq.com 添加为request合法域名
+2.下载SDK文件
+将SDK放置入utils文件夹中，并在应用入口app.js中引入SDK，例如：var mta = require("utils/mta_analysis.js"); //07.18引入腾讯统计的代码
+3.在应用入口app.js的App.onLaunch方法调用如下代码段，做统计信息初始化（可在“应用管理”选择配置并拷贝代码）:
+
+onLaunch： function(options) {
+var that = this
+that.mtaInit(options)
+}
+
+//07.18腾讯统计信息初始化
+	mtaInit: function(sData) {
+		var that = this
+		//这是示例代码，应用的接入代码请到“应用管理”进行拷贝		
+		return mta.App.init({
+			"appID": "500511103",
+			"eventID": "500512430",
+			"statPullDownFresh": true,
+			"statShareApp": true,
+			"statReachBottom": true,
+			"lauchOpts": sData.options
+		});
+	},
+	mta: mta,
+	
+	
+4.将aboutTsji.js放置入utils文件夹中，并在页面中引用
+var aboutTsji = require("../../utils/aboutTsji.js")  //07.18新增引入腾讯统计数据
+
+5.在需要引用的地方，加上下面的代码（直接把e传递过去，去获取所需要的数据）
+//07.18新增，获取设定的腾讯统计值
+aboutTsji.disMta({e})
+
+----------------------------------------------------------
 //腾讯统计
 app.mta.Page.init();
+
+
+
+//腾讯统计
+app.mta.Event.stat( 'share_'+that.data.index,{} )	
+
+
+//app里面有封装好的方法
+//05.25腾讯统计
+app.mtaShare(that.data.index, type)

@@ -1,0 +1,7 @@
+点击label标签包含的区域相当于，点击绑定的控件！
+
+<button id='share' open-type="share" size="mini" plain='true' hidden='true'></button>
+<label for='share'>
+	<image src="../../images/1.jpg" mode="center"></image>
+	<text class="bottom-item-text">分享</text>
+</label>

@@ -1,0 +1,47 @@
+方法1：
+var testObj = function(that) {
+	//再這里去设置that的取值
+	var result = {
+		first: 0,
+		firstFun: function() {
+			var self = this
+			log(444, self.first)
+		},
+	}
+//	设置obj的数据
+	that.testObj = result
+}
+
+
+调用的方法
+//1.先去注册這个对象,然后就可以去使用了
+testObj(that)
+///2.使用,直接使用that去调用
+that.testObj.firstFun()
+
+
+方法2：
+var testObj = function() {
+	var that = this
+	//再這里去设置that的取值
+	var result = {
+		first: 0,
+		firstFun: function() {
+			var self = this
+			log(444, self.first)
+		},
+	}
+//	设置obj的数据
+	that.testObj = result
+}
+
+
+//需求先添加到page里面去，才可以使用，建议使用第一种方法
+module.exports = {
+	testObj,
+}
+
+//1.先去注册這个对象
+that.testObj()
+///2.使用,直接使用that去调用
+that.testObj.firstFun()

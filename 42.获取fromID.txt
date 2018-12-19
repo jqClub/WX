@@ -1,0 +1,187 @@
+1.使用formId的教程：
+http://www.wxapp-union.com/portal.php?mod=view&aid=1996
+
+因为我们是在IDE中测试，所以得到的formId值为the formId is a mock one。在真机中我们可以得到一个具体的值，利用该值结合其他参数我们就可以发送模板消息啦。注意不要在机器码的时候，去发送请求
+
+
+2.如何去收集用户的fromid（详见猜歌答题王）
+1）html文件里写
+<form bindsubmit="formSubmit" report-submit="true">	
+	<!--最外层的 bindsubmit="formSubmit"用来收集用户的fromid-->
+	<!--button formType="submit"，button加上这个，才会触发请求。只有button加上才有效，view标签加上，不会发送请求-->
+	<button formType="submit" >
+		
+	</button>
+</form>
+
+2）在页面中引入文件：
+var fromid  = require("../../utils/formid.js") //07.06收集推送ID
+加在Page({
+	getWebsocket: function (res) {
+		var that = this
+		if (resData.cmd == 'arena_money_userinfo') {
+			
+	    } else if (resData.cmd == 'arena_save_formid'){  //07.06收集推送ID
+			fromid.formidCall(res) //回调函数
+		}
+	}, 
+	//07.06收集推送ID
+	formSubmit: fromid.formSubmit,
+})
+
+
+3)formid.js文件里
+var log = console.log.bind(console)
+//获取应用实例
+var app = getApp()
+
+var aboutApi  = require("./aboutApi.js")  //去请求接口
+var logN = require("./log.js")  //log函数
+logN = logN.logNew   //打印函数
+
+//提交fromID接口
+var SAVE_FORM_ID = function(form_id) {
+	//07.06如果是机器码，直接返回，不去请求
+	if(form_id == 'the formId is a mock one') {
+		logN('form_id是机器码，直接返回，不去请求接口')
+		return
+	}
+//		var that = this;
+	//缓存里的日期和数量
+	var dayFormid = wx.getStorageSync('form_id');   //从缓存里面读取
+	//		console.log('getStorageSync dayFormid',dayFormid);
+	//今天日期
+	var let_day = new Date();
+	let_day = let_day.toDateString(); //转成字符串
+	//天数重置
+	if(let_day != dayFormid.day) {
+		//凌晨五点后才允许重置
+		var let_date = new Date();
+		var let_Hours = let_date.getHours();
+		if(let_Hours < 5) {
+			return
+		}
+		//重置FORM_ID缓存
+		wx.setStorage({
+			key: 'form_id',
+			data: {
+				day: let_day,
+				form_num: 0,
+				form_arr: {}
+			}
+		})
+	}
+	//如果是有token就去发送(并且是登陆的状态)
+	if(app.data.token && app.data.isLogin) {
+//		if(typeof(that.data.userInfo.user_id) == 'string' && that.data.userInfo.user_id.length > 0) {
+		//如果是13位字符串则不发送
+		form_id = form_id + '';
+		//今天储存的FORMID超过26个就不存了
+		if(dayFormid.form_num > 8) {
+			return
+		}
+		var form_num;
+		form_num = typeof(dayFormid.form_num) == "number" ? dayFormid.form_num + 1 : 1;
+		var form_arr = dayFormid.form_arr ? dayFormid.form_arr : {};
+		form_arr[form_num - 1] = form_id;   //将最新的form_id添加到队列里面去
+		wx.setStorage({
+			key: 'form_id',
+			data: {
+				day: let_day,
+				form_num: form_num,
+				form_arr: form_arr
+			}
+		})
+//		that.data.form_num = form_num;
+		var let_data = {
+			form_ids:　form_arr,  //请求的用户fromid
+//			user_id: that.data.userInfo.user_id,
+//			token: that.data.userInfo.token,
+//			scode: logMSG.wechat_type,
+//			fid: form_arr,
+//			app_ed: app_ed,
+		}
+		//第一条时候发一次
+		if(form_num == 1) {
+			//发送FORM_ID
+//			sendform_id(); //这个是request请求,原来使用的
+			sendform_id({
+				day: let_day,
+				form_num: form_num,
+			});
+		}
+		if(dayFormid.form_num < 8) {
+			return
+		}
+		if(!form_arr[5]) {
+			return
+		}
+		//发送FORM_ID
+//		log(`form_arr: ${JSON.stringify(form_arr)}`)
+//		sendform_id()	//这个是request请求,原来使用的
+		sendform_id({
+				let_day: let_day,
+				form_num: form_num,
+			});
+	}
+	//第一条时候发一次.或有8条,并且已添加的总量,现在需要发送对象里6条
+	function sendform_id(sData) {
+//		console.log('正在发送 FORM_ID')
+		app.data.formids = sData  //保存在app.data里面,方便在 回调里面去使用
+		aboutApi.GET_Port('arena_save_formid', let_data)  //发送请求
+		
+		//发起请求(这个是原来的请求,如果是使用的request请求,就使用下面的代码.上面的是使用wss请求)
+//		wx.request({
+//			url: that.data.API.FORM_ID,
+//			data: let_data,
+//			header: {
+//				'content-type': 'application/json'
+//			},
+//			success: function(res) {
+//				console.log('SAVE_FORM_ID', res);
+//				if(res.data.c == '0') {
+//					wx.setStorage({
+//						key: 'form_id',
+//						data: {
+//							day: let_day,
+//							form_num: form_num,
+//							form_arr: {}
+//						}
+//					})
+//				}
+//			},
+//			fail: function() {
+//				console.info("提交失败 SAVE_FORM_ID", '1');
+//			}
+//		})
+	}
+}
+//提交后的回调函数
+var formidCall = function(res) {
+	var formids = app.data.formids
+//	logN('formids', formids)
+	if(res.status == '200') {
+		wx.setStorage({
+			key: 'form_id',
+			data: {
+				day: formids.let_day,
+				form_num: formids.form_num,
+				form_arr: {}
+			}
+		})
+	}
+}
+
+//截取FORMID
+var formSubmit = function(event) {
+//		var that = this;
+		var formId = event.detail.formId;
+//		console.log('form发生了submit事件，推送码为：', formId, event)
+		SAVE_FORM_ID(formId)
+	}
+
+module.exports = {
+	formSubmit: formSubmit,   //直接使用这个函数
+//	SAVE_FORM_ID: SAVE_FORM_ID, 
+	formidCall: formidCall,
+}

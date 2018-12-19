@@ -1,0 +1,198 @@
+return {
+			title: let_title,
+			path: let_path,
+			imageUrl: let_imageUrl ,
+			success: function(res) {
+				// 转发成功 
+				console.log('转发成功', res)		
+
+				try{
+					//说明分享 是群
+					//分享群获得金币
+					var shareTickets = res.shareTickets[0];
+					var let_data_02={};
+					//调用的通用分享函数
+					app.getShareInfo('',shareTickets,let_data_02,function(ShareData){
+						
+						ShareData.type 	= that.data.getSystemInfo.system_str == 'ios' ? 'ioshelp' : type;
+						ShareData.sid 	= that.data.subject.id ;
+						ShareData.uid 	= app.data.userInfo.user_id ;
+						
+						console.log('ShareData let_data',ShareData)
+						
+						app.REWARD_SHARE( '', ShareData, function(let_res) {
+							console.log('ARENA_SHARE', let_res)
+							if(let_res.data.c == '0') {
+								
+								if( ShareData.type == 'ioshelp'){
+									wx.showModal({
+									  title: '分享成功',
+									  showCancel:false,
+									  content: '答案：' + that.data.subject.answer.name ,
+									  success: function(res) {
+									    if (res.confirm) {
+									    }else if(res.cancel){
+								    	}
+									  }
+									})
+									return
+								}
+								
+								if(!let_res.data.d.score){return}
+								that.setData({ is_share_reward:true , is_share_reward_three:true })
+								setTimeout(function(){
+									that.setData({ is_share_reward:false , is_share_reward_two:true , is_share_reward_three:false })							
+									that.num_animation(that.data.money,let_res.data.d.score,'','money');
+		//							that.setData({ money : getdata.data.d.score })		
+									setTimeout(function(){
+										that.setData({ is_share_reward_two:false , is_share_reward_three:false })
+									},1500)
+								},1500)
+								
+							}else{
+								wx.showToast({ title: let_res.data.m,icon: 'none',duration: 2000})	
+							}
+						})
+					})
+					
+				}catch(e){
+					//说明分享的是个人
+					if( type == 'help'){
+//						wx.showToast({ title: '分享到群才可以哦！',icon: 'none',duration: 2000})	
+						wx.showToast({ title: '分享个人成功',icon: 'none',duration: 2000})	
+						return
+					}
+				}
+				
+			}
+}
+
+
+
+07.11新增修改分享语，后台配置
+1.新增了share_about.js和wxRequest.js
+修改了share.js文件
+
+3.app.js文件里
+3）//域名，打开
+var domain 		= 'https://api.zuiqiangyingyu.net';
+1）在data里面加入
+//07.11新增分享语
+shareNew: share.shareNew,
+domain: domain,  //打开这个开关
+
+2）shareTitleImg函数里
+// 07.11新增修改分享
+//		var list = share.shareNew
+		var list = that.data.shareNew  //设置分享相关的
+
+
+2.index.js中引入文件
+4）
+1）var share_about = require("../../utils/share_about.js")  //07.11新增引入分享请求
+在onLoad函数里，加上这个
+that.setData({
+			options: options,
+		})
+
+2）在getUserinfo函数里
+//07.11新增,去请求分享相关的数据(总的分享语和是否click)
+share_about.shareFirst({
+	page: that,  //这里需要传options过去,需要在onLoad里去设置
+	app: app,
+})
+
+
+3）onShareAppMessage函数里面
+//07.11新增: 页面中关于分享的回调
+		var result = share_about.sharePage({
+			app: app,
+		})
+		
+		return {
+				title: result.title,
+				path: result.let_path,
+				imageUrl: result.image,
+				
+				//注释掉这里的统计
+				//06.26腾讯统计,分享的id和key(改成20180709日期),如果有key的值,才去发送腾讯统计
+				//if (returnShare.key) {
+					//var shareKey = app.data.shareKey;
+					//app.mtaShareNew(returnShare.id, {
+					//	shareKey: returnShare.key
+					//});
+				//}
+			}
+			
+3.share.js函数里
+1）var share_about = require("./share_about.js")  //07.11新增引入分享请求
+2）commonShare函数内
+//07.11新增: 页面中关于分享的回调
+var result = share_about.sharePage({
+	app: app,
+})
+return {
+	title: result.title,
+	path: result.let_path,
+	imageUrl: result.image,
+	
+	//注释掉这里的统计
+				//06.26腾讯统计,分享的id和key(改成20180709日期),如果有key的值,才去发送腾讯统计
+				//if (returnShare.key) {
+					//var shareKey = app.data.shareKey;
+					//app.mtaShareNew(returnShare.id, {
+					//	shareKey: returnShare.key
+					//});
+				//}
+}
+
+4.challenge_game.js函数内
+1）var share_about = require("../../utils/share_about.js")  //07.11新增引入分享请求
+2）onShareAppMessage函数内
+//07.11新增: 页面中关于分享的回调
+		var result = share_about.sharePage({
+			app: app,
+		})
+		
+		return {
+				title: result.title,
+				path: result.let_path,
+				imageUrl: result.image,
+				
+				//注释掉这里的统计
+				//06.26腾讯统计,分享的id和key(改成20180709日期),如果有key的值,才去发送腾讯统计
+				//if (returnShare.key) {
+					//var shareKey = app.data.shareKey;
+					//app.mtaShareNew(returnShare.id, {
+					//	shareKey: returnShare.key
+					//});
+				//}
+			}
+
+			
+其他：猜歌达人
+//分享的位置：首页index、闯关首页challenge_index、闯关分享challenge_help、
+	//排位赛首页season_index、排位赛结束分享season_end(按钮)、排行榜top_all
+1）var share_about = require("../../utils/share_about.js")  //07.12新增引入分享请求
+2）onShareAppMessage函数内
+		//07.12新增: 页面中关于分享的回调
+		var result = share_about.sharePage({
+			app: app,
+			let_path: let_path,
+			pageType: 'index',
+			type: type, //页面中的其他类型也可以传递过去
+		})
+		
+				return {
+				title: result.title,
+				path: result.let_path,
+				imageUrl: result.image,
+			}
+			
+			
+			
+------------------------------------
+获取分享的信息
+try{var sharetype = e.target.dataset.sharetype;}catch(e){}
+try{var sharetype = e[0].target.dataset.sharetype;}catch(e){}
+

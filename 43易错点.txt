@@ -1,0 +1,74 @@
+1.定时器的问题，占了很大内存。把时间设置长一点就可以了(修改时间过短，导致页面加载很慢)。导致出现切换题目的时候，有很高的延迟（定时器需要在离开的时候，清除掉）
+
+2.断开之后，需要登陆，才可以请求其他的接口（否则再请求的时候，会提示需要重新去登陆）
+
+3.2个接口同时去请求，都返回需要重新登陆，需要只给一次登陆的机会（不然可能会多次去请求数据）
+
+4.新增一个image.js报错本地所有的图片地址，方便去修改数据。
+会有需要修改的数据，最好都报错在文件里，方便去处理。
+
+5.切换下一题的时候（当到11首的时候），需要重新设置音乐的时候，不用重复调用，只需要去设置文件的src。否则在11首的时候，会出现报错（调用次数太多，容易导致卡死）
+warning: possible EventEmitter memory leak detected. %d listeners added. Use emitter.setMaxListeners() to increase limit. 11
+
+6.需要设置接口返回的长度（比如首页banner只需要2个数据，需要做切片处理，否则会显示错乱，不要相信后台）
+
+7.直接在需要打断点的地方，加上这个就可以了  debugger; 
+
+8.使用call可以绑定this的指向，从而不用在每个页面去调用page
+test.testShow.call(this)
+
+9.统计不一定要在页面中写app.mta.Page.init();
+因为可以使用封装好的方法 app.mtaShareNew
+
+10.wx.request() 是发起网络请求。没有同步接口
+
+11.IOS真机上new Date()时间格式问题
+console.log('new Date("2016.12.29") =', new Date("2016.12.29"));  //null
+console.log('new Date("2016-12-29 18:00") =', new Date("2016-12-29 18:00"));  //null
+console.log('new Date("2016-12-29 18:00:00") =', new Date("2016-12-29 18:00:00"));  //null
+
+在 iOS 上，小程序的 javascript 代码是运行在 JavaScriptCore 中,所以，你需要把-改成/
+
+12.短路表达式 与 多重短路表达式
+// ||短路表达式
+var foo = a || b;
+// 相当于
+if(a){
+    foo = a;
+}else{
+    foo = b;
+}
+
+// &&短路表达式
+var bar = a && b;
+// 相当于
+if(a){
+    bar = b;
+}else{
+    bar = a;
+}
+
+13.
+1、在 Javascript 的逻辑运算中，0、""、null、false、undefined、NaN 都会判定为 false ，而其他都为 true ；
+2、因为 Javascript 的内置弱类型域 (weak-typing domain)，所以对严格的输入验证这一点不太在意，即便使用 && 或者 || 运算符的运算数不是布尔值，仍然可以将它看作布尔运算。虽然如此，还是建议如下：
+if(foo){ ... }     //不够严谨
+if(!!foo){ ... }   //更为严谨，!!可将其他类型的值转换为boolean类型
+
+14.// 不带时间参数的 setTimeout(a) 相当于 setTimeout(a,0)
+
+15.接入广告的，需要设置"Content-Type": "application/x-www-form-urlencoded"
+
+16.在js文件中使用app, 直接传值就好，不用在页面中传
+
+17.ios机型中，getBackgroundAudioManager和createInnerAudioContext不能同时使用
+
+18.height: 100vh;，背景图显示全屏
+
+其他
+微信最近更新了小程序跳转到其他小程序或小游戏的方式（腾讯只更新小程序的文档，没有更新小游戏的），从其他小程序带入的参数的字段也变更了，导致端午节统计数据不准确，所以统计来源渠道的时候要判断两个地方query和referrerInfo这两个字段（具体参见图片）。文档链接 https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/app.html（这个文档只是针对小程序的但小游戏也是一样的），小程序可以在wx.onLaunch(options), wx.onShow(options) 里面获得参数，小游戏通过wx.onShow(options)和 wx.getLaunchOptionsSync()获得 。。。
+
+
+19.去除按钮的点击样式
+hover-class="none"
+
+

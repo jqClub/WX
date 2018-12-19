@@ -6,3 +6,5 @@ var that = this
     })
   },
  
+ 
+ user_msg = JSON.parse(res.rawData);

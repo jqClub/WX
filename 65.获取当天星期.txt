@@ -1,0 +1,3 @@
+//今天日期
+var let_day = new Date();
+let_day = let_day.toDateString();

@@ -1,0 +1,47 @@
+  //////////////////////////////////////////
+  //////////////////////////////////////////
+  1.json文件里添加
+   "god-popup": "../../component/god-popup/god-popup",
+  
+  2.index页面中添加
+  <!-- 弹窗 -->
+  <god-popup id="popup" bind:taptwo="v_goback" ></god-popup>
+  
+  
+  //09.26断网的处理
+var net = require("../../utils/net.js") 
+
+  在onload方法里加入如下方法
+  //09.26新增断网判断
+	net.setNet(that)
+	
+	
+	//设置网络断开之后，点击按钮，如何去处理
+  v_goback: function() {
+  	var that = this;
+  	//net.dealNet(that)
+	net.v_goback_other(that)
+  },
+  
+ //////////////////////////////////////////
+  ////////////////////////////////////////// 
+  
+  .js页面
+ 
+1.在onload方法里加入如下方法
+    //无网络时做提示no net
+    wx.onNetworkStatusChange(function(res){
+      console.log(res)
+      if(res.networkType == "none"){
+        that.setData({nonet: false})
+      }else{
+        that.setData({nonet: true})
+      }
+    })
+ 
+2.在pages{}里面定义变量
+ 
+Page({
+  data:{
+       nonet: true
+  }

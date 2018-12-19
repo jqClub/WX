@@ -1,0 +1,35 @@
+  <!--3个一排，超过换行-->
+        <view class="link">
+            <view class="link_child">
+                1212
+            </view>
+            <view class="link_child">
+                1212
+            </view>
+            <view class="link_child">
+                1212
+            </view>
+            <view class="link_child">
+                1212
+            </view>
+        </view>
+		
+		
+		
+.link {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 654rpx; 
+    margin: 0 auto;
+    position: relative;
+    left: 5rpx;
+}  
+.link_child {
+    width: 31%;
+    background: red;
+    border: 1rpx solid black;
+}
+.link_child:not(:nth-child(3n)){
+    margin-right: 10rpx;
+}

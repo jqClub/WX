@@ -1,0 +1,16 @@
+json文件里
+{
+  "usingComponents": {
+    "wxad": "../../component/wxad/wxad"
+  }
+}
+
+
+<!--广告的组件-->
+<wxad wx:if="{{game_state == 6}}"  adType='4'></wxad>
+
+
+<!--广告的组件-->
+<view style="position: fixed; bottom: 0; width: 100%;">
+	<wxad adType='person'></wxad>
+</view>

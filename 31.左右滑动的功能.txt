@@ -1,0 +1,81 @@
+见首页-排行版的处理
+
+
+<!--没有button，所以不发送fromid-->
+<view>
+	<view class="display_flex lists_top ">
+		<view catchtap="set_select" data-num="0"  formType="submit" class="{{billcurrent == 0 ? 'lists_click' :  'lists_no_click' }} " style="margin: 0 50rpx 0 40rpx;">
+			荣誉榜
+		</view>
+		<view catchtap="set_select" data-num="1"  formType="submit" class="{{billcurrent == 1 ? 'lists_click' :  'lists_no_click' }} ">
+			毅力榜
+		</view>
+	</view>
+	<view class="lists_center  " style="padding-top: 24rpx; margin-top: 38rpx; height: {{config.listHight}};">
+		<view class="triangle" style="left: {{billcurrent == 0 ? '70rpx' :  '210rpx' }}"></view>
+		<swiper class="" current="{{billcurrent}}" bindchange="touch_select"  style="height: 1050rpx;">
+			<!--红包榜-->
+			<swiper-item>
+			<!--<view  wx:if="{{billcurrent == 0}}">-->
+				<scroll-view class="" scroll-y="true" style="height: 1050rpx;">
+					<view  wx:for="{{honor}}" wx:key="unique" class="display_flex lists_center_new  ">
+						<!--头像的设置-->
+						<view wx:if="{{index < 3}}">
+							<image class="lists_rank  " src="../../images/ico_rank_{{index+1}}.png" mode="widthFix"></image>
+						</view>
+						<view wx:else class="list_text  " >
+							{{index+1}}
+						</view>
+						<!--设置其他信息-->
+						<!--<image class="lists_rank_img" src="../../images/Group_4.png" mode="widthFix"></image>-->
+						<image class="lists_rank_img" src="{{item.avatar}}" mode="widthFix"></image>
+						<view class="lists_rank_text">{{item.name}}</view>
+						<view class="display_flex lists_rank_text1">
+							<view class="lists_rank_text2">
+								通关
+							</view>
+								{{item.challenge_success_times}}
+							<view class="lists_rank_text2">
+								次
+							</view>
+						</view>
+					</view>
+				</scroll-view>
+			<!--</view>-->
+			</swiper-item>
+			
+			<!--//毅力榜-->
+			<!--<view wx:else>-->
+			<swiper-item>
+				<scroll-view class="" scroll-y="true" style="height: 1050rpx;">
+					<view  wx:for="{{tough}}" wx:key="unique1" class="display_flex lists_center_new  ">
+						<!--头像的设置-->
+						<view wx:if="{{index < 3}}">
+							<image class="lists_rank  " src="../../images/ico_rank_{{index+1}}.png" mode="widthFix"></image>
+						</view>
+						<view wx:else class="list_text  " >
+							{{index+1}}
+						</view>
+						<!--设置其他信息-->
+						<image class="lists_rank_img" src="{{item.avatar}}" mode="widthFix"></image>
+						<view class="lists_rank_text">{{item.name}}</view>
+						<view class="display_flex lists_rank_text1">
+							<view class="lists_rank_text2">
+								挑战
+							</view>
+								{{item.challenge_times}}
+							<view class="lists_rank_text2">
+								次
+							</view>
+						</view>
+					</view>
+				</scroll-view>
+			<!--</view>-->
+			</swiper-item>
+		</swiper>
+		
+	</view>
+	
+	<!--挑战机会+1的组件-->
+	<!--<dialog id='dialog'></dialog>-->
+</view>

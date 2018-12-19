@@ -9,3 +9,15 @@ log(`let_time: (${let_time})`)
 
 5.小程序相关：测试环境的http需要在手机上打开调试，并且需要在onogin里面添加需要处理的函数
 
+for (var i = 0; i < wordList.length; i ++) {
+		
+	}
+
+//把键值转成对象的形式
+	var stringJson ='{"'+ key +'": ""}';
+	var result = JSON.parse(stringJson); //通过JSON.parse，把字符串转成一个对象
+//	//如果有appid的话，就加上appid
+	if(appid) {
+		bannerMta = bannerMta+appid  //这里需要appid
+	}
+	result[key]= bannerMta

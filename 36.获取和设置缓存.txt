@@ -1,0 +1,3 @@
+wx.setStorage({ key:"user_king", data:data.user })
+
+wx.getStorageSync('user_id')

@@ -1,0 +1,104 @@
+////////////////////////////////////////////////////////////////////
+Jenkins自动构建
+http://192.168.3.186:8080/   
+登录账号：builder
+密码：wonder
+
+自动构建的，我已经做了 极品飞车 项目的，这个在微信平台，是全流程基本跑通了的：取代码、构建、打包、上传等，这个可以作为一个例子或模板，大家可以去看看。
+
+接下来主要的工作：
+1） 完成其它平台的接入；
+2） 完善一些细节；
+3） 我们其它的所有项目的接入（包括小程序项目）
+
+
+////////////////////////////////////////////////////////////////////
+现在每个项目的多平台移植越来越多了，下面说一下应对多平台的前端代码架构的一个推荐方式：
+
+把平台相关的内容分类（如登录、获取用户信息、分享、广告、排行榜等）做成抽象接口类，然后每个平台实现具体的类，再然后提供工厂类（或工厂函数也可以）创建具体的平台实现类，在工厂类里面判断平台类型。
+
+尽量避免在主文件里面用一堆if-else这样把所有平台的代码实现都放在一起，这样很难维护的。
+
+建议用TS，实现这些类啊，派生等比JS方便简结一些。
+
+-----
+
+以login（登录）为例，下面是上面思想的伪代码：
+
+//BaseLogin.ts文件
+abstract class BaseLogin {
+    abstract login(var args):boolean;
+}
+
+//WXLogin.ts文件
+import ./.../BaseLogin.ts
+
+class WXLogin extends BaseLogin {
+    login(var args):boolean
+    {
+        //实现微信的登录
+        wx.login(...);
+        return true;
+    }
+}
+
+
+//createLogin.ts文件
+//创建 登录实现类 的工厂函数示例
+import ./.../WXLogin.ts
+import ./.../QQLogin.ts
+import ./.../BaiduLogin.ts
+
+BaseLogin createLoginInstance(int platform):object
+{
+  switch (platform){
+      case WX:
+          return new WXLogin;
+        case QQ:
+          return new QQLogin;
+        case Baidu:
+          return new BaiduLogin:
+        ...
+    }
+    return null;
+}
+
+
+//项目主逻辑文件
+const WX = 1;
+const QQ = 2;
+const Baidu = 3;
+
+const CUR_PLATFORM = WX; //当前编译WX。  版本如果要编译其他平台，修改这个值
+
+import ./.../createLogin.ts
+...
+...
+
+//需要登录时
+var loginObj = createLoginInstance(CUR_PLATFORM);
+loginbj.login(...);
+....
+
+
+-----
+
+如果后面要添加其他的平台，如Facebook，做法是：
+
+1）实现一个Facebook的登录类：
+class FBLogin extends BaseLogin {
+//....
+}
+
+2) 在项目主逻辑文件定义一个Facebook的项目项：
+const FB = 4；
+
+3）在登录实现类的工厂函数里面添加FB登录实现类的创建：
+...
+import ./.../FBLogin.ts
+
+case FB:
+     retrurn new FBLogin;
+...
+
+4) Done

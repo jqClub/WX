@@ -1,0 +1,27 @@
+//复制
+	copy: function(){
+		var that = this;
+		wx.setClipboardData({
+		  data: that.data.number,
+		  success: function(res) {
+		  	wx.showToast({
+			  title: '成功',
+			  icon: 'success',
+			  duration: 2000
+			})
+		    wx.getClipboardData({
+		      success: function(res) {
+		        console.log(res.data) // data
+		      }
+		    })
+		  },
+		  fail: function(){
+		  	console.info('shibai')
+		  	wx.showToast({
+		  	  title: '失败',
+		  	  icon: 'success',
+		  	  duration: 2000
+		  	})
+		  }
+		})
+	}

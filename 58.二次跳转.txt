@@ -1,0 +1,197 @@
+////////////////////////////////////////////////////////////////////////
+修改了navigateToMiniProgram函数
+	//小程序导航
+	navigateToMiniProgram : function(appid,path,data, envVersion){
+		var that = this;
+//		appid = appid ? appid : 'wxf2a06e4b30d4ad83';
+		if(!appid) {
+			return 
+		}
+		console.log("准备进入小程序",appid,path,data)
+		if( wx.navigateToMiniProgram ){
+			try{
+				wx.navigateToMiniProgram({
+					appId: appid ,
+					path: path ? path : 'pages/index/index',
+					extraData: data?data:{foo: 'bar'},
+					envVersion: envVersion || 'develop',
+					success(res) {
+						console.log('跳转小程序')
+						//腾讯统计
+//						that.mta.Event.stat('click',{'page':'进入小程序'});
+						//腾讯统计
+//						that.mta.Event.stat('Ad_'+appid,{'click':1});
+					}
+				})
+			}catch(e){}
+		}else{
+			wx.showModal({
+				title: '鸭鸭提示',
+				showCancel: false,
+				confirmText: '好的',
+				content: '微信版本过低不支持该功能，请更新后体验',
+				success: function(res) {
+					if(res.confirm) {
+					} else if(res.cancel) {
+					}
+				}
+			})	
+		}
+		
+	},
+	
+	//09.27新增公共方法库
+	var libCommon = require("../../utils/libCommon.js"); 
+	
+	放在onload函数里面
+	//09.27新增二次跳转
+    libCommon.secondJump(that)
+	
+	
+	beginsource=caigedaren&appid=wxe1b1e619b7f109f3&extra={"source": "youxidatiaozhan"}&appname=游戏大挑战&appstasticsname=nw_zui_qiang_da_nao&appversion=trial&apppath=
+	
+////////////////////////////////////////////////////////////////////////
+libCommon.js文件内容
+
+//公用函数库（可以调用app的方法）
+//获取应用实例
+var app = getApp()
+var log = console.log.bind(console)
+
+//---------------------------------------------------
+//09.27新增统一加上二次跳转
+//that是每个页面的显示
+var secondJump = function(that) {
+	//小程序中转09.26新增二次跳转的逻辑
+	let t = that.data.options
+	log('onload的参数', t)
+	if (!!t.appid) {
+        let miniCfg = t,
+            appid = miniCfg.appid,
+            apppath = !!miniCfg.apppath ? miniCfg.apppath : "",
+            extra = !!miniCfg.extra ? miniCfg.extra : {},
+            appversion = !!miniCfg.appversion ? miniCfg.appversion : "release",
+            beginsource = !!miniCfg.beginsource ? miniCfg.beginsource : "",
+            appstasticsname = !!miniCfg.appstasticsname ? miniCfg.appstasticsname : "";
+        if (typeof extra == "string") {
+            extra = JSON.parse(miniCfg.extra)
+        }
+        
+		log('二次跳转开始', appid, apppath, extra, appversion)
+        app.navigateToMiniProgram(appid, apppath, extra, appversion);
+        
+        //腾讯统计参数
+        let data = {
+        	jump: beginsource + "-to-" + appstasticsname
+        };
+        var id = app.data.logmsg.statisticsName
+        log(`统计事件id: ${id}+事件参数的key: ${JSON.stringify(data)}`)
+		app.mta.Event.stat(id, data)
+ 	}
+}
+//---------------------------------------------------
+
+module.exports = {
+	secondJump,
+}
+	
+	
+////////////////////////////////////////////////////////////////////////
+////小程序中转09.12新增二次跳转的逻辑
+		log('options', options)
+		if( options.appstasticsname ){
+			let targeData = JSON.parse(options.extra)
+			let targePath = options.apppath ? options.apppath : ''
+			targePath = encodeURIComponent(targePath)
+			console.log( 'extra', targeData );
+			//console.log( 'extra', JSON.stringify(targeData) );
+			var result = {
+				appid		:	options.appid,
+				path		:	targePath,
+				extraData	:	options.extra ? options.extra : {},
+				version		:	options.appversion,
+			}
+			log('options---1', result)
+			app.navigateToMiniProgram(result.appid, result.path, result.extraData, result.version)
+//			//腾讯统计
+//			that.mta.Event.stat( 'tz_' + options.appstasticsname , {} )
+		}
+
+
+////////////////////////////////////////////////////////////////////////
+//涛哥的方法
+//小程序中转
+if( options.appstasticsname ){
+	let targeData = JSON.parse( options.extra )
+	console.log( 'extra', targeData );
+	//console.log( 'extra', JSON.stringify(targeData) );
+	app.navigateToMiniProgram({
+		appid		:	options.appid,
+		path		:	options.apppath ? options.apppath : '',
+		extraData	:	options.extra ? options.extra : {},
+		version		:	options.appversion,
+	})
+	//腾讯统计
+	that.mta.Event.stat( 'tz_' + options.appstasticsname , {} )
+}
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////
+09.26新增
+onLoad: function(t) {
+    
+     if (!!t.appid) {
+            let miniCfg = t,
+                appid = miniCfg.appid,
+                apppath = !!miniCfg.apppath ? miniCfg.apppath : "",
+                extra = !!miniCfg.extra ? miniCfg.extra : {},
+                appversion = !!miniCfg.appversion ? miniCfg.appversion : "release",
+                beginsource = !!miniCfg.beginsource ? miniCfg.beginsource : "",
+                appstasticsname = !!miniCfg.appstasticsname ? miniCfg.appstasticsname : "";
+            if (typeof extra == "string") {
+                extra = JSON.parse(miniCfg.extra)
+            }
+            let data = {
+                appid: appid,
+                path: apppath,
+                extra: extra,
+                version: appversion,
+                beginsource: beginsource,
+                stastics_name: appstasticsname
+            };
+            app.gotoMiniAppIndirect(data);
+        }
+    }
+	
+	
+	
+	//	//	//	//	//	//	//	//	//	//	//	//	//	//	//	//	//	//	//	//	
+10.23原来的版本，现在已经不能使用了
+
+//		appid: wxe1b1e619b7f109f3 //游戏大挑战的appid
+//		path: /pages/main/main?appid=目标小程序、小游戏的appid&extra=跳转数据json对象&appname=目标小程序、小游戏的名称（中文或英文）&appstasticsname=统计名称(16位英文、数字或下划线)&appversion=目标小程序、小游戏的版本&apppath=目标小程序的路劲（小程序可为空，小游戏不需要填写）
+//		path例子： /pages/main/main?appid=wxbb1390ad75bf7154&extra={"path":"/pages/index/index","extraData":{"a":1,"b":2}}&appname=最强大脑&appstasticsname=nw_zui_qiang_da_nao&appversion=release&apppath=
+//		跳转数据json对象	=	{
+//			//跳转到指定页面路径
+//			path		:	"/pages/index/index",
+//			//跳转到指定小程序的数据
+//			extraData	:	{
+//				a	:	1,
+//				b	:	2,
+//			},
+//		}
+		//小程序中转
+		if( options.appstasticsname ){
+			let targeData = JSON.parse( options.extra )
+//			console.log( 'extra', targeData );
+//			console.log( 'extra', JSON.stringify(targeData) );
+			app.navigateToMiniProgram({
+				appid		:	options.appid,
+				path		:	targeData.path,
+				extraData	:	targeData.extraData,
+				version		:	options.appversion,
+			})
+		}

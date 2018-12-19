@@ -1,0 +1,105 @@
+var ver = require("../../utils/ver.js")  //08.13新增获取BMS配置信息
+
+//08.14增加版本控制
+var isShowAd = ver.isShowAd(app)
+
+
+
+getVerControl: function () {
+  var that = this;
+//var appName = that.data.logmsg.appName;
+  var common = that.apiAll.common;
+//var version = that.data.logmsg.bms_ed;
+  log(`版本控制号: ${version}`);
+  return new Promise((resolve, reject) => {
+    //发送ajax请求
+    var result = {
+      url: common.CONFIG_INFO, //请求的地址
+      data: {
+        app_name: appName,
+        version: version,
+      },
+      contentType: "urlencoded"
+    };
+    //	log(`版本控制-数据: ${JSON.stringify(result)} `)
+    ajax(result).then(function (res) {
+      log(`版本控制-返回: ${JSON.stringify(res)}`);
+      if (res.code == "0") {
+        var sData = res.data || {};
+        that.data.control = sData;
+        //设置信息(app.data里面的)
+        that.data.isControlShow = sData.is_show;
+
+        //控制是否屏蔽ip地址
+        if (sData.is_show) {
+          if (sData.ip) {
+            that.getIpControl(resolve);
+          } else {
+            //是否显示(去设置)
+            that.isShowAdNew(1);
+            resolve();
+          }
+        } else {
+          resolve();
+        }
+      } else {
+        console.error(res);
+      }
+    });
+  });
+},
+getIpControl: function (resolve) {
+  var that = this;
+  var appName = that.data.logmsg.appName;
+  var common = that.apiAll.common;
+  //发送ajax请求
+  var result = {
+    url: common.IS_ENABLE, //请求的地址
+    data: {
+      app_name: appName
+    },
+    contentType: "urlencoded"
+  };
+  //	log(`ip控制-数据: ${JSON.stringify(result)} `)
+  ajax(result).then(function (res) {
+    if (res.code == "0") {
+      //		log(`ip控制-返回: ${JSON.stringify(res)}`)
+      //      0是广深的IP，1是其他地区的IP
+      //		判断是0，就不显示，1的话，才显示出来
+      var is_enable = res.data.is_enable || 0;
+      that.data.is_enable = is_enable;
+      log(`ip控制-返回: ${is_enable}`);
+      //在这里去判断是否显示出来
+      that.isShowAdNew(2);
+      resolve();
+    } else {
+      console.error(res);
+    }
+  });
+},
+isShowAdNew: function (type) {
+  var that = this;
+  var result = false;
+  if (type == 1) {
+    result = true;
+  } else {
+    var is_enable = that.data.is_enable;
+    //如果是其他地区
+    if (is_enable) {
+      result = true;
+    }
+  }
+  that.data.ipShow = result;
+  log("版本开关", result);
+  return;
+},
+apiAll: {
+	//BMS公用接口
+	common : {
+		//	获取配置（审核的时候屏蔽）
+		CONFIG_INFO : 'https://game.zuiqiangyingyu.net/common/config/info',
+		//	IP 屏蔽
+		IS_ENABLE : 'https://game.zuiqiangyingyu.net/common/ip/is_enable',
+	},
+}
+

@@ -1,0 +1,11 @@
+设置所有页面的背景：
+page{
+   font-family:"Microsoft YaHei" ;  
+   /*background:  #4D0A81;*/
+   overflow-x:hidden;
+   width: 750rpx;
+    background: linear-gradient(to bottom,  #4D0A81, #781AAD);
+}
+
+这个是用来设置渐变效果的：
+background: linear-gradient(to bottom,  #4D0A81, #781AAD)   

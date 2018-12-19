@@ -7,6 +7,15 @@
 	overflow:hidden;
 }
 
+3.只显示一行
+width: 250rpx;
+需要设置width
+.one_line{
+	overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}
+
 	2.底部增加下划线
 	.button_list_right:after {
 	content:'';  

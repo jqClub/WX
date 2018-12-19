@@ -1,0 +1,2 @@
+1.提示错误：Page is not constructed
+iphone6plus  进入猜歌，显示蓝屏。引用了自己的文件，导致报错（机型问题，开发工具不会报错）

@@ -1,0 +1,18 @@
+ <view class="pop_tc opacityDown" style=""></view>
+ 
+ 
+ /*弹窗的样式*/
+.challenge_index_page_02{
+	position: fixed; 
+	top: 0; 
+	left: 0;
+	width: 750rpx; 
+	height: 100%;
+	flex-direction: column;
+	justify-content: center;
+	-webkit-transition: all 0.3s;
+	overflow-y: scroll;
+	background: rgba(0,0,0,0.6);
+	
+	z-index: 2;
+}

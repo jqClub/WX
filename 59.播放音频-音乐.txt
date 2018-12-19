@@ -1,0 +1,104 @@
+var log = console.log.bind(log)  //放在app.js外层
+  
+1.在onShow里面去设置
+that.setBackgroundAudio()
+ 
+2. app.js里的文件
+///////////////////////////////////////
+///////////////////////////////////////
+//06.25新增背景音乐
+setBackgroundAudio: function() {
+	var that = this
+
+	//设置背景播放器
+	if(wx.getBackgroundAudioManager) {
+		//获取播放器API
+		if(!that.backgroundAudioManager) {
+			that.backgroundAudioManager = wx.getBackgroundAudioManager();
+		}
+	}
+
+	if(wx.createInnerAudioContext) {
+		//获取播放器API
+		if(!that.innerAudioContext) {
+			that.innerAudioContext = wx.createInnerAudioContext();
+		}
+	}
+},
+  
+//播放音频
+playAudio: function(data) {
+	var that = this;
+	//		统一使用最新的播放接口,原来的不在维护了
+	that.innerAudioContext.autoplay = true;
+	//09.12新增修改------------------start
+	that.innerAudioContext.loop = data.loop || false;
+	that.innerAudioContext.src = data.urls;
+	log('-开始播放背景音乐-')
+	that.innerAudioContext.play()
+	//09.12新增修改------------------end
+	that.innerAudioContext.onPlay(() => {
+		console.log('开始播放')
+	})
+	log('播放', that.innerAudioContext, data, that.innerAudioContext.loop)
+	that.innerAudioContext.onError((res) => {
+		console.log(res.errMsg)
+		console.log(res.errCode)
+	})
+},
+
+	//停止音频
+	stopAudio: function() {
+		var that = this;
+		log('-停止播放背景音乐-')	
+//		统一使用最新的播放接口,原来的不在维护了
+		that.innerAudioContext.stop();
+	},
+	
+	//播放背景音频
+	playBgAudio: function(data) {
+		var that = this;
+		//09.12修改如果没有链接的话，直接返回,防止出现错误
+		if(!data.urls) {
+			log('没有音乐文件')
+			return
+		}
+
+		that.data.Audio = data;
+		that.backgroundAudioManager.title = '明星赢现金';
+		that.backgroundAudioManager.epname = '明星赢现金';
+		that.backgroundAudioManager.singer = '喵鹰鹰';
+		that.backgroundAudioManager.src = data.urls;
+		that.backgroundAudioManager.play();
+//----------------------------------------------------------
+		//09.12新增，打开播放的效果
+		that.backgroundAudioManager.onPlay(function(){
+			log('播放---app.js')
+			if( typeof(data.onPlay) == 'function' ){ data.onPlay()}
+		});
+		that.backgroundAudioManager.onPause(function(){
+			log('暂停---app.js')
+			if( typeof(data.onPause) == 'function' ){ data.onPause()}
+		});
+//----------------------------------------------------------
+		that.backgroundAudioManager.onEnded(function(){
+			log('播放结束---app.js')
+			if( typeof(data.onEnded) == 'function' ){ data.onEnded()}
+		});
+		that.backgroundAudioManager.onError = function(res) {
+			console.error(res)
+		};
+	},
+
+	//停止背景音频
+	stopBgAudio: function(type, urls) {
+		var that = this;
+		that.backgroundAudioManager.stop();
+	},
+	
+	
+2.在页面中使用
+app.playAudio()
+app.stopAudio()
+app.playBgAudio()
+app.stopBgAudio()

@@ -1,0 +1,79 @@
+-----------------------------------------------------------------------	
+07.13可以使用组件
+1.复制componentwd-navigateToMiniProgram
+2.在页面中的使用
+1）在index.json中引入组件
+{
+  "usingComponents": {
+    "navigateToMiniProgram": "../../component/wd-navigateToMiniProgram/wd-navigateToMiniProgram"
+  }
+}
+
+2）在index.html中使用
+<block wx:for="{{more_fun}}" wx:key="more_fun">
+		<navigateToMiniProgram appData="{{item}}" mta="{{'more_fun'+index}}" bind:ToMiniProgram="toMiniProgram">
+			//<image class="more_fun_img" src="{{item.icon}}"></image>
+			//这里放图片等等
+		</navigateToMiniProgram>
+	</block>
+
+3）在index.js中监听事件（这里可以写统计的事件）
+ToMiniProgram: function(e) {
+		var that = this
+		//e.detail是传递过来的参数
+		var clickFather = e.detail
+		log(`clickFather: ${JSON.stringify(clickFather)}`)
+	},
+
+	
+-----------------------------------------------------------------------	
+<image class="" 
+wx:if="{{common_ads.appId}}" catchtap="ad_navigateToMiniProgram" data-path="{{common_ads.path}}" data-appid="{{common_ads.appId}}" data-id="{{common_ads.id}}" src="{{common_ads.icon}}" style="width: 140rpx; height: 140rpx; position: fixed; top: 440rpx; left: 0; z-index: 4;" mode="widthFix" ></image>
+
+
+//小程序导航
+	ad_navigateToMiniProgram : function(e){
+		var appid 	= e.target.dataset.appid;		
+		var path 	= e.target.dataset.path;		
+		var data 	= e.target.dataset.data;		
+		var id 		= e.target.dataset.id;		
+		//腾讯统计
+		app.mta.Event.stat('Ad_'+id,{'click':1});
+		app.navigateToMiniProgram(appid,path,data);		
+	},
+	
+	//前往网页版
+	gotowebview : function(e){	
+		var that = this;
+		var path 	= e.target.dataset.path;	
+		var title 	= e.target.dataset.title;	
+		var id 		= e.target.dataset.id;		
+		//腾讯统计
+		app.mta.Event.stat('Ad_'+id,{'click':1});
+		app.data.webview_data ={
+			path	:	path,
+			title	:	title,
+		} ;
+		app.bindViewTap_three('web_view','','',that.data.index)
+	},
+	
+	
+06.14修改，原来的navigateToMiniProgram方法会逐渐废除，将使用下来新的方法
+<!--06.14处理跳转的兼容性问题-->		
+	<view class="" bindtap="ad_navigateToMiniProgram">
+		<navigator target="miniProgram" open-type="navigate" app-id="{{item.appid}}" path="{{item.page}}" extra-data="{{item.extra}}" hover-class="none">
+			<button  data-path="{{item.page}}" data-appid="{{item.appid}}" data-data="{{item.extra}}" data-mta="{{'banner'+index}}">			
+				<view  data-appid="{{item.appid}}" data-data="{{item.extra}}" data-mta="{{'banner'+index}}" class="mini_app_child {{'mini_app_child'+index}}">
+					<!--<image class="mini_app_img child_center" src="{{index_jump_img[index]}}" style="" mode="widthFix"></image>-->
+					<image data-appid="{{item.appid}}" data-data="{{item.extra}}" data-mta="{{'banner'+index}}" class="mini_app_img child_center" src="{{item.icon}}" style="" mode="widthFix"></image>
+				</view>
+			</button>
+		</navigator>
+	</view>
+	
+	
+	<view class="comp myclass" bindtap="toMiniProgram">
+		<navigator target="miniProgram" app-id="{{id}}">
+		<slot></slot>
+		</navigator>
+	</view>

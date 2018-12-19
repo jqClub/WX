@@ -1,0 +1,189 @@
+//09.06新增统计数据
+var statistics0906 = require("../../utils/statistics0906.js")  //08.29通用的发送请求
+var statisticsNew = statistics0906.statisticsNew
+
+//09.06新增onload注册时函数
+	var onLoadRegistry = function() {
+		var that = this
+		//腾讯统计
+		app.mta.Page.init();
+//		//08.16新增（渠道来源统计），
+////	这里要先在页面中注册，然后才可以使用，所以在这里进行判断是否是新的用户
+		app.channle()
+		
+//		先注册這个统计的函数
+		statisticsNew(that)
+	}
+	
+	var onShowRegistry = function() {
+		var that = this
+		
+		//发送显示首页的函数
+		that.statisticsNew.indexCommon('indexShow')
+	}
+	
+	
+//09.06新增onload注册时函数
+		that.onLoadRegistry()
+		
+//		先注册這个统计的函数
+statisticsNew(that)
+
+//发送显示首页的函数
+that.statisticsNew.indexCommon('indexShow')
+
+//09.06发送分享统计函数
+that.statisticsNew.shareCommon(e)
+
+//09.06点击发送腾讯请求
+that.statisticsNew.clickRequest(e)
+
+//09.06发送腾讯请求
+that.statisticsNew.submitMta(name)
+
+
+data-statistics="{{item.statistics}}"
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+
+
+
+//09.07发送腾讯漏斗请求
+that.funnel.common(e)
+
+//09.07发送腾讯漏斗请求
+that.funnel.send(mta)
+
+data-funnelname="caigexinshouyin_lv2"
+
+//需统计的所有名字
+var mtas = {
+	//	事件参数的value，每个都包含新用户、老用户、总用户。
+	//新用户定义：当天猜歌达人新用户
+	//名称举例：
+	//1）展示引导开始-新
+	//2）展示引导开始-老
+	//3）展示引导开始-总
+////////////////////////////////////////////////////////////////////////////////
+//	09.06新手引导01
+	xinshouyindao_guideShow: '展示引导开始',
+	xinshouyindao_guideStart: '【开始闯关】',
+	xinshouyindao_guideListen: '听歌【继续】',
+	xinshouyindao_guidePause: '暂停【继续】',
+	xinshouyindao_guideBreakUp: '歌名【继续】',
+	xinshouyindao_guideHint: '提示【开始】',
+//	带上点击的文字。例如：单字【文字】告
+	xinshouyindao_guideCharacter: '单字【文字】',
+	xinshouyindao_guideComplete: '完成【谢谢】',
+	xinshouyindao_guideSkip: '【跳过】',
+	xinshouyindao_guideSkipAgree: '跳过【同意】',
+////////////////////////////////////////////////////////////////////////////////
+	//	09.06首页02
+	shouye_indexShow: '展示首页',
+	shouye_addNotes: '【增加音符】',
+	shouye_rank: '【排行榜】',
+	shouye_map: '【关卡地图】',
+	shouye_collect: '【我的收藏】',
+	shouye_dayily: '【每日签到】',
+	shouye_invitePerson: '【邀请有礼】',
+	shouye_start: '【开始闯关】',
+	shouye_gramophone: '【留声机】',
+	//	带上APPID，例如“点击【icon1】andasjdasdas”
+	shouye_icon1: '【icon1】',
+	//	带上APPID，例如“点击【icon1】andasjdasdas”
+	shouye_icon2: '【icon2】',
+	shouye_match: '【排位赛】',
+	shouye_god: '【蒙面歌神】',
+	shouye_song: '【歌单闯关】',
+	//	带上APPID，例如“点击【icon1】andasjdasdas”
+	shouye_bottom1: '【bottom1】',
+	//带上APPID，例如“点击【icon1】andasjdasdas”
+	shouye_bottom2: '【bottom2】',
+	//带上APPID，例如“点击【icon1】andasjdasdas”
+	shouye_box: '【游戏盒子】',
+	shouye_Service: '【联系客服】',
+	shouye_shareRigth: '【右上分享】',
+////////////////////////////////////////////////////////////////////////////////
+	//	09.06闯关03
+	chuangguan_indexShow: '展示回答页',
+	chuangguan_songAddNotes: '回答【＋音符】',
+	chuangguan_songCollect: '回答【收藏】',
+	chuangguan_songNoCollect: '回答【不收藏】',
+	chuangguan_songHint: '回答【提示】',
+	chuangguan_songAskHelp: '回答【求助】',
+	chuangguan_songStartPlay: '回答【开播】',
+	chuangguan_songPause: '回答【停播】',
+	chuangguan_songEmpty: '回答【清空】',
+	chuangguan_songPay: '支付【确认】',
+	chuangguan_shareRigth: '回答【右上】',
+	chuangguan_next: '结束【下一首】',
+	chuangguan_ask: '结束【告诉感受】',
+	chuangguan_endShareRigth: '结束【右上】',
+////////////////////////////////////////////////////////////////////////////////
+	//	09.06排位赛04
+	peiweisai_indexShow: '展示排位首页',
+	peiweisai_seasonRewards: '首【赛季奖励',
+	peiweisai_shareRigth: '首【右上分享',
+	peiweisai_classic1: '首【音乐小白',
+	peiweisai_classic2: '首【入门新手',
+	peiweisai_classic3: '首【崭露头角',
+	peiweisai_classic4: '首【闪耀新星',
+	peiweisai_classic5: '首【锋芒毕露',
+	peiweisai_classic6: '首【精通音律',
+	peiweisai_classic7: '首【技冠群雄',
+	peiweisai_classic8: '首【出神入化',
+	peiweisai_classic9: '首【举世无双',
+	peiweisai_classic10: '首【独步天下',
+	peiweisai_classic11: '首【音乐大师',
+	peiweisai_classic12: '首【荣耀至尊',
+	//胜--败--平
+	peiweisai_continueWin: '胜【继续挑战',
+	peiweisai_shareWin: '胜【分享结果',
+	peiweisai_retrospectWin: '胜【本局回顾',
+	peiweisai_shareSongWin: '胜【分享歌单',
+	peiweisai_continueLost: '败【继续挑战',
+	peiweisai_shareLost: '败【分享结果',
+	peiweisai_retrospectLost: '败胜【本局回顾',
+	peiweisai_shareSongLost: '败【分享歌单',
+	peiweisai_continueDogfall: '平【继续挑战',
+	peiweisai_shareDogfall: '平【分享结果',
+	peiweisai_retrospectDogfall: '平【本局回顾',
+	peiweisai_shareSongDogfall: '平【分享歌单',
+
+	peiweisai_endShareRigth: '结束【右上】',
+////////////////////////////////////////////////////////////////////////////////
+	//	09.06蒙面歌神05
+	mengmiangeshen_indexShow: '展示首页',
+	mengmiangeshen_indexPlayMethod: '首页【说明】',
+	mengmiangeshen_indexRank: '首页【排名】',
+	mengmiangeshen_indexPrize: '首页【奖品】',
+	mengmiangeshen_indexStart: '首页【开始】',
+	mengmiangeshen_indexInvite: '首页【邀请】',
+	mengmiangeshen_indexShare: '首页【右上分享',
+	mengmiangeshen_showFirstPop: '展示第一名弹窗',
+	mengmiangeshen_showeLiminated: '展示被淘汰弹窗',
+	mengmiangeshen_firstPopShare: '第一名【分享】',
+	mengmiangeshen_liminatedShare: '被淘汰【分享】',
+	mengmiangeshen_endShare: '结束页【右上】',
+////////////////////////////////////////////////////////////////////////////////
+	//	09.06歌单闯关06
+	gedanchuangguan_indexShow: '展示歌单首页',
+	//	带上位置顺序，例如“首页【banner】1-serid”
+	gedanchuangguan_indexBanner: '首【banner】',
+	//	带上位置顺序，例如“首页【banner】1-serid”
+	gedanchuangguan_indexlListIcon: '首【歌单icon】',
+	gedanchuangguan_indexseLectionList: '首【精选歌单】',
+	gedanchuangguan_indexShare: '首【右上分享】',
+	//	带上位置顺序，例如“首页【banner】1-serid”
+	gedanchuangguan_listAllIcon: '歌【全部icon】',
+	//	带上位置顺序，例如“首页【banner】1-serid”
+	gedanchuangguan_listMyIcon: '歌【我的icon】',
+	gedanchuangguan_listShare: '歌【右上分享】',
+////////////////////////////////////////////////////////////////////////////////
+	//	09.06分享统计07
+	//	带上素材ID，例如“发出分享001”
+	fenxiangtongji_sendShare: '发出分享',
+	//	带上素材ID，例如“发出分享001”
+	fenxiangtongji_clickShare: '点击分享图',
+////////////////////////////////////////////////////////////////////////////////
+}
