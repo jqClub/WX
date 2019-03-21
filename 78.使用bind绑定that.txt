@@ -1,0 +1,30 @@
+//1.bindObj.js文件里
+//面向对象
+var Paddler = function() {
+	var that = this
+	var o = {}
+	o.save = function() {
+		var self = this
+		console.log(that)
+	}
+	return o
+}
+module.exports = {
+	Paddler,
+}
+
+
+
+//2.页面js文件中使用
+//引入相关的文件
+var bindObj = require("../../utils/bindObj.js")
+
+onLoad(options) {
+	var that = this
+	
+	//在onload里去注册函数
+	that.Paddler = bindObj.Paddler.bind(that)()
+	//在页面中使用
+	that.Paddler.save()  
+}
+

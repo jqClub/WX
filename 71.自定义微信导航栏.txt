@@ -1,0 +1,8 @@
+1.在app.json - window 中开启自定义配置，添加"navigationStyle"				: "custom"（微信版本6.6.0开始支持，基础库1.9.1）
+
+备注说明：
+1）客户端 6.7.2 版本开始，navigationStyle: custom 对 <web-view> 组件无效
+2）客户端 7.0.0 以下版本，navigationStyle 只在 app.json 中生效。
+3）开启 custom 后，低版本客户端需要做好兼容。开发者工具基础库版本切到 1.7.0（不代表最低版本，只供调试用）可方便切到旧视觉
+
+具体使用可查看：https://www.jianshu.com/p/8dbadb870382

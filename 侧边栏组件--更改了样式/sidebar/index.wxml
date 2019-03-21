@@ -1,0 +1,38 @@
+<view class="comp myclass {{isOpen && 'comp--open'}}" style="">
+  <view class="mask" bindtap="switch" />
+	
+  <view class="main " style='z-index: 1000;'>
+    <view class="switch {{isOpen ? '' : 'rubberBand'}}" bindtap="switch" style="position: relative; z-index: 3;">
+      <!--<image class="switch__img " src="./arrow-r.png" mode="widthFix"></image>
+      
+      <view class="red_dot"></view>-->
+      <image class="chunjiewujian_jq_arrow " src="./chunjiewujian_jq_arrow.png" mode="widthFix"></image>
+      <view class="red_dot"></view>
+    </view>
+
+    <view class="btns {{list.length>5 ? 'btns--row' : 'btns--col'}}" style="z-index: 4;">
+      <block wx:for="{{list}}" wx:key="list">
+      	<my-mp class="btn"  appid="{{item.adWxAppId}}" path="{{item.path}}" data-msg="{{item}}" bindtap="trigger">
+          <image class="btn__img {{index+1 == showIndex ? 'rubberBand' : ''}}" src="{{item.image}}" mode="widthFix"></image>
+          <view class="btn__text">{{item.title}}</view>
+        </my-mp>
+        <!--<my-mp class="btn"  appid="{{item.adWxAppId}}" path="{{item.path}}" data-msg="{{item}}" bindtap="trigger">
+          <image class="btn__img rubberBand" src="{{item.image}}" mode="widthFix"></image>
+          <view class="btn__text">{{item.title}}hahahaha</view>
+        </my-mp>-->
+      </block>
+      
+      <!--12.21新增,这个是展示图片信息-->
+      <block wx:for="{{list2}}"  wx:key="list2">
+      	<button class="display_flex btn" style="flex-direction: column;" appid="{{item.adWxAppId}}" path="{{item.path}}" data-msg="{{item}}" bindtap="openImg" hover-class="false">
+          <image class="btn__img {{index+1+list.length == showIndex ? 'rubberBand' : ''}}" src="{{item.image}}" mode="widthFix"></image>
+          <view class="btn__text  ">{{item.title}}</view>
+        </button>
+        <!--<button class="display_flex btn" style="flex-direction: column;" appid="{{item.adWxAppId}}" path="{{item.path}}" data-msg="{{item}}" bindtap="openImg" hover-class="false">
+          <image class="btn__img rubberBand  " src="{{item.image}}" mode="widthFix"></image>
+          <view class="btn__text  ">{{item.title}}</view>
+        </button>-->
+      </block>
+    </view>
+  </view>
+</view>

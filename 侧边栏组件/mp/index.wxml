@@ -1,0 +1,13 @@
+<view class="comp myclass">
+  <block wx:if="{{canIUse}}">
+    <view class="" bindtap="toMiniProgram">
+      <slot></slot>
+    </view>
+  </block>
+
+  <block wx:else>
+    <navigator hover-class="none" target="miniProgram" app-id="{{appid}}" path="{{path}}" version="{{version}}">
+      <slot></slot>
+    </navigator>
+  </block>
+</view>

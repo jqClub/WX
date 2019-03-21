@@ -1,0 +1,39 @@
+<!--//這个是切换滚动广告的组件-->
+<!--bind事件绑定不会阻止冒泡事件向上冒泡-->
+<!--<view s-if="{{showAd}}" bindtap="ad_navigateToMiniProgram">
+	<navigator target="miniProgram" open-type="navigate" app-id="{{appData.appid || appData.appId || appData.adWxAppId}}" path="{{appData.page || appData.path}}" extra-data="{{appData.extra}}" bindsuccess="successEvent" version="release" hover-class="none">
+		<view data-appid="{{appData.appid || appData.appId}}" data-path="{{appData.page || appData.path || appData.adWxAppId}}" data-data="{{appData.extra}}">			
+			<slot /> 
+		</view>
+	</navigator>
+</view>-->
+<!--<view class="display_flex adsBG_view test" style="padding-top: 17rpx; background: #FD7371; border-radius: 20rpx 20rpx 0 0;">-->
+<view class="display_flex adsBG_view test" style="padding-top: 17rpx; border-radius: 20rpx 20rpx 0 0;">
+	<image  class="adsBG" src="./adsBG_new.png" ></image>
+	<!--<view class="caini_title adsBG_title">猜你喜欢</view>-->
+
+	<!--<view style="position: relative; z-index: 2; margin-top: 28rpx;">-->
+	<!--<view style="position: relative; z-index: 2; margin-top: 18rpx;">-->
+	<view style="position: relative; z-index: 2; margin-top: 10rpx;">
+		<scroll-view scroll-x="true" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-left="{{scrollTop}}">
+		  <view class="scroll-x" >
+		    <!--<view class="display_flex slider_father" s-for-items="{{scrolls}}" s-key="name" style="margin-left: {{index == 0 ? '60rpx': ''}}">
+		    	<image class="slider_clid" src="https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJibBZXuUbHyR7JuFLP26ZOUXb9c33iaZZcT6LB2YbgYPzY8cCu7SKxx1KN6AzBq7E6OFlMnqGcwrJw/132"/>
+		      	<view>最强大脑</view>
+		    </view>-->
+		    
+		    <block s-for="{{list}}" s-key="list" >
+		       <my-mp s-if="{{item.type == 1}}" class="display_flex slider_father" style="margin-left: {{index == 0 ? '60rpx': ''}}"  appid="{{item.adWxAppId}}" path="{{item.path}}" data-msg="{{item}}" bindtap="trigger">
+		          <image class="slider_clid {{index+1 == showIndex ? 'rubberBand' : ''}}" src="{{item.image}}" mode="widthFix"></image>
+		          <view class="caini_title">{{item.title}}</view>
+		       </my-mp>
+		       <!--海报跳转，使用button的时候，页面会出现问题，所以使用view-->
+		       <view s-else class="display_flex slider_father slider_father_button" style="margin-left: {{index == 0 ? '60rpx': ''}}"  data-msg="{{item}}" bindtap="openImg" hover-class="false">
+		          <image data-msg="{{item}}"  class="slider_clid {{index+1 == showIndex ? 'rubberBand' : ''}}" src="{{item.image}}" mode="widthFix"></image>
+		          <view class="caini_title" data-msg="{{item}}"  >{{item.title}}</view>
+		       </view>
+		    </block>
+		  </view>
+		</scroll-view>
+	</view>
+</view>

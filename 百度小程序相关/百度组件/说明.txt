@@ -1,0 +1,10 @@
+my-grade:宝箱组件
+
+
+2.
+//12.21新增广告列表
+bmsAdData: {},
+//用来控制显示图片和按钮等
+loopControl: {
+	showContent: true,
+}

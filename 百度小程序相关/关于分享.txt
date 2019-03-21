@@ -1,0 +1,98 @@
+1.可以配置分享出去的链接
+//19.1.12新增，分享相关
+var aboutShare = require("../../utils/aboutShare.js")
+
+onShareAppMessage: function (e) {
+  	var that = this
+  	//19.1.12新增，这里配置分享出去的链接
+  	var obj = {
+//		pathObj: {
+//			id: 'WS201901100356119523',
+//		}
+  	}
+  	var result = aboutShare.returnShareContent(that, obj)
+  	return result
+  },
+  
+
+  
+  2.处理登录的弹窗
+  
+  	<!--19.1.11新增，重新授权登录-->
+	<view class="pop_tc" s-if="{{initial_show}}">
+		<view class="display_flex pop_login"  style="position: relative;">
+			<image src="../../img/close.png" class="close_imgNew_login" catchtap="closeLogin"></image>
+			
+			<image src="https://static.zuiqiangyingyu.cn/admin/1812/bdcg_bobo.png" style="width:200rpx; height: 200rpx; border-radius: 50%;"></image>
+			<view class="welcome_login" style="margin-top: 40rpx; font-weight: 600;">登录即可享受更多福利</view>
+			 <button bindtap="loginButton" class="button_new_login" style="margin-top: 32rpx; font-weight: 600;" hover-class="none" form-type="submit">
+	        	点击登录
+	    	</button>
+		</view>
+	</view>
+  
+	
+	/////////////////////////////////////////////// 
+	//19.1.10新增,使用api
+	var getWx = require('../../utils/getWx.js');
+
+	//19.1.11新增，登录的逻辑
+	var loginFunNew = require("../../utils/loginFunNew.js")
+	/////////////////////////////////////////////
+    ///////////////////////////////////////////////
+	//19.11登录相关的函数
+	  aboutLoginSecond: function(call) {
+		var that = this
+		loginFunNew.clickLoginApp(that, function() {
+			if(typeof call == 'function') {
+				call()
+			}
+		})
+	  },
+	  //19.1.12先判断是否有登录过（跳转以及接口请求前都需要先判断）
+	  isLoginFun: function(call) {
+		var that = this
+		//先判断是否有登录，如果没有登录，先去登录，再去请求
+		if (!app.data.userInfo.token) {
+			that.aboutLoginSecond(call)
+		} else {
+			if(typeof call == 'function') {
+				call()
+			}
+		}
+	  },
+	  //19.1.12新增，登录的函数(登录按钮的函数)
+	  loginButton: function() {
+		var that = this
+		var call = function() {
+			that.onlogin()
+		}
+		that.aboutLoginSecond(call)
+	  },
+  	//关闭登录的弹窗
+	closeLogin: function() {
+		var that = this
+		that.setData({
+			initial_show: false,
+		})
+	},
+	//监听登录事件
+	onlogin : function(e){
+		var that = this ;
+		that.setData({
+			userInfo: app.data.userInfo,
+			initial_show: false,
+			hasAccredit: app.data.hasAccredit ||false,
+		})
+	},
+	
+	
+	
+	设置小数点后2位
+	parseFloat(d.balance).toFixed(2)
+	
+	
+	
+	
+	//19.1.12新增，登录接口返回的错误
+    app.dealUnusual(res, that)

@@ -1,0 +1,12 @@
+<!--//這个是切换滚动广告的组件-->
+<!--bind事件绑定不会阻止冒泡事件向上冒泡-->
+<view wx:if="{{showAd}}" bindtap="ad_navigateToMiniProgram">
+	<navigator target="miniProgram" open-type="navigate" app-id="{{appData.appid || appData.appId || appData.adWxAppId}}" path="{{appData.page || appData.path}}" extra-data="{{appData.extra}}" bindsuccess="successEvent" version="release" hover-class="none">
+		<view data-appid="{{appData.appid || appData.appId}}" data-path="{{appData.page || appData.path || appData.adWxAppId}}" data-data="{{appData.extra}}">			
+			<!--{{appData.id}}-->
+			<!--<image class="img_home_card1" src="{{appData.icon}}"  mode="widthFix"></image>-->
+			<view wx:if="{{loopControl.showContent}}">{{appData.title}}</view>
+			<slot /> 
+		</view>
+	</navigator>
+</view>

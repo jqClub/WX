@@ -1,0 +1,93 @@
+1.tab-bar用不了，因为navigationStyle-custom自定义导航栏样式，需要iOS 百度 App11.2, Android 百度 App版本11.1。太高了，很多手机无法使用（顶部的自定义导航栏）--"navigationStyle": "custom",
+2.that.tabBar.setdata(that.data); 放在onLoad里面，获取不到值（在微信的可以），所以无法设置data，有报错
+3.../../assets/info.png文件没有，提示错误
+4.页面标签不规范，百度会直接渲染报错。而微信不会报错
+<view style='color: #000;'>{{message.video.dur / 1000
+								<< 1>> 1}}''</view>							
+5.抽象组件（componentGenerics没有）
+
+
+6.标签中出现了错误（转换工具在转换行的时候，出现错误）
+				<!--<movable-view bindtouchstart="movestart" bindtouchmove="move" bindtouchend="moveend" data-num="{{ index }}" out-of-bounds="true" direction="all" friction="0.1" disabled="{{ item.z!=0 && item.life }}" x="{= (750 + item.x)*getSystemInfo.designRatio  =}" y="{= 100+item.z*14 =}" class="display_flex {{ item.life ?'':'pointerEvents' }}" style=" z-index: {{ 20-item.z }}; width: 750rpx; height: {{ getSystemInfo.windowHeight }}px; ">-->
+
+			<movable-view bindtouchstart="movestart" bindtouchmove="move" bindtouchend="moveend" data-num="{{ index }}" out-of-bounds="true" direction="all" friction="0.1" disabled="{{ item.z!=0 && item.life }}" x="{{(750 + item.x)*getSystemInfo.designRatio}}" y="{{100+item.z*14}}" class="display_flex {{ item.life ?'':'pointerEvents' }}" style=" z-index: {{ 20-item.z }}; width: 750rpx; height: {{ getSystemInfo.windowHeight }}px; ">
+
+7.wxs 换filter
+<wxs module="common">
+	module.exports.getTrackStyle = function(offsets, index, multiple) { if (!multiple) { return 'width: ' + offsets[index] + '%' } return 'left: ' + offsets[index] + '%; width: ' + (offsets[index + 1] - offsets[index]) + '%' }
+    module.exports.getStyle = function(style, index) { if (style.constructor !== 'String') { return style[index] } return style }
+    module.exports.getValue = function(obj, name) { if (obj.constructor === 'Object') { return obj[name] } return obj }
+</wxs>
+
+8.百度开发工具上未显示按钮，但真机上可显示
+
+9.设置页面顶部导航栏+文字
+"navigationBarBackgroundColor": "#7a2be6",
+  "navigationBarTitleText": "排行榜",
+  
+  
+  10.百度小程序，跳转到红包详情页
+  catchtap="bindViewTap" data-targe="jigsawDetail" data-data="?redpacket_id={{ item.redpackets[0].redpacket_id }}"
+ 
+
+			
+								
+								
+								
+
+
+			<view class="comp myclass">
+  <view class="main">
+    <block s-if="swiper && imgs.length>1">
+      <my-album class list="{{imgs}}"></my-album>
+    </block>
+    <block s-else>
+      <image class="main__img" src="{{msg.head || imgs[0]}}" mode="aspectFill" bindtap="previewImage"></image>
+    </block>
+  </view>
+
+  <view class="msg">
+    <block s-if="msg.age">
+      <view class="highlight">
+        <view class="highlight__name">{{ msg.nickname }}</view>
+        <view class="highlight__tags">
+          <view class="highlight__tag highlight__sex highlight__sex--{{msg.gender}}">
+            <i class="sex__icon fa fa-mars fa-inverse" s-if="msg.gender===1"></i>
+            <i class="sex__icon fa fa-venus fa-inverse" s-if="msg.gender===2"></i>
+
+            <text class="highlight__sex_text" s-if="msg.age">{{
+              msg.age
+            }}</text>
+          </view>
+
+          <block s-if="constellation.name">
+            <view class="highlight__tag highlight__constellation" style="background-color: {{constellation.bg}};">{{ constellation.name }}</view>
+          </block>
+
+          <!--
+            <view class="highlight__tag highlight__hobby">
+              <image class="" src="" mode="widthFix" />
+              <text class="highlight__hobby_text">12</text>
+            </view>
+          -->
+        </view>
+      </view>
+    </block>
+    <block s-else>
+      <view class="normal">
+        <view class="normal__name">{{ msg.nickname }}</view>
+
+        <i class="normal__icon fa fa-mars" s-if="msg.gender===1"></i>
+        <i class="normal__icon fa fa-venus" s-if="msg.gender===2"></i>
+      </view>
+    </block>
+
+    <!-- 工作 -->
+    <block s-if="msg.job">
+      <view class="other">{{ msg.job }} {{ msg.distance }} {{ msg.last_active_time }} </view>
+    </block>
+
+    <!-- 定位 -->
+    <!-- <block wx:else> <view class="other">白云区 （8km)</view> </block> -->
+  </view>
+</view>

@@ -1,0 +1,12 @@
+
+/*使用:active可以出现点击的效果*/
+/*1.缩放*/
+.mus_op_new:active {
+	 transform: scale(0.95);
+}
+
+/*2.点击后凹下，弹起的效果*/
+button:active {
+	position:relative;
+	top:1px;
+}

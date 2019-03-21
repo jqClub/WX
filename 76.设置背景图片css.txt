@@ -1,0 +1,3 @@
+background-image:url('https://static.zuiqiangyingyu.cn/admin/1811/1d395e9dc3d3cca08014b9a57bf3de41.png');
+	background-size:171rpx 60rpx;
+	background-repeat:no-repeat;

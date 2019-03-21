@@ -1,0 +1,245 @@
+.global_view {
+	flex-direction: column;
+}
+.treasureTitle {
+	width:591rpx;
+	height:106rpx;
+}
+.light {
+	width:522rpx;
+	height:525rpx;
+}
+.light_view {
+	position: relative;
+}
+.treasureClose {
+	width:334rpx;
+	height:289rpx;
+	
+	position: absolute;
+	top: 20rpx;
+}
+
+/*进度条样式*/
+.progress_about {
+	position: absolute;
+	bottom: 20rpx;
+}
+.progress_view {
+	width:518rpx;
+	height:28rpx;
+	position: relative;
+}
+.progress_bottom {
+	width:518rpx;
+	height:28rpx;
+	line-height:28rpx;
+	background:rgba(40,19,20,1);
+	border:4rpx solid rgba(255, 184, 108, 1);
+	border-radius:14rpx;
+}
+.progress_top {
+	/*width:389rpx;*/
+	/*最长的长度*/
+	width: 522rpx; 
+	
+	height:28rpx;
+	background:rgba(246,66,75,1);
+	border-radius:14rpx;
+	
+	/*设置进度条的样式*/
+	position: absolute;
+	top: 4rpx;
+	/*left: 3rpx;*/
+	left: 2rpx;
+}
+
+.progress_time {
+	height:38rpx;
+	line-height:38rpx;
+	
+	font-size:26rpx;
+	font-family:SourceHanSansCN-Regular;
+	font-weight:400;
+	color:rgba(255,245,238,1);
+	/*-webkit-text-stroke:2rpx #371708;
+	text-stroke:2rpx #371708;*/
+
+	top: 0;
+}
+
+.click_text {
+	font-size:40rpx;
+	font-family:SourceHanSansCN-Medium;
+	font-weight:500;
+	color:rgba(255,245,238,1);
+}
+
+.global_close {
+	width:80rpx;
+	height:80rpx;
+	
+	position: absolute;
+	top: 59rpx;
+	right: 20rpx;
+}
+.btn1 {
+	width:453rpx;
+	height:117rpx;
+}
+
+.btn_bottom {
+	width:453rpx;
+	height:117rpx;
+	
+	font-size:43rpx;
+	font-family:SourceHanSansCN-Regular;
+	font-weight:bold;
+	color:rgba(250,236,219,1);
+	-webkit-text-stroke:1rpx #3F2E0B;
+	text-stroke:1rpx #3F2E0B;
+	
+	position: relative;
+}
+
+/*.btn_child {
+	top: 25rpx;
+}*/
+
+
+/*-----------------------*/
+.getReward {
+	width:316rpx;
+	height:83rpx;
+}
+.add_ynfu {
+	font-size:50rpx;
+	font-family:SourceHanSansCN-Regular;
+	font-weight:400;
+	color:rgba(250,236,219,1);
+	/*-webkit-text-stroke:1rpx #2D2108;
+	text-stroke:1rpx #2D2108;*/
+	
+	position: absolute;
+	/*bottom: 30rpx;*/
+	top: 340rpx;
+}
+
+.give_up {
+	font-size: 40rpx;
+	color: #349AF9;
+	
+	border-bottom: 1rpx solid #349AF9;
+}
+
+/*///////////////////////////////////////////////////*/
+.global {
+  position: fixed;
+  z-index: 4;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /*background: rgba(0, 0, 0, 0.8);*/
+ background: rgba(0, 0, 0, 0.9);
+}
+.display_flex{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/*margin: 0 auto;居中*/
+.margin0 {
+	margin: 0 auto;
+}
+
+/*居中显示*/
+.child_center{
+ 	position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+ }
+ /*左右居中*/
+.absolute_left {
+	position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+/*垂直居中*/
+.absolute_top {
+	position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.test {
+	border: 1px solid black !important;
+}
+
+/*呼吸效果*/
+.w600h90 {
+    animation: imageScale 0.5s infinite;
+}
+
+@keyframes imageScale {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        /*transform: scale(1.05);*/
+       transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/*晃动动画4 只晃动一次*/
+.Shaking4{
+	-webkit-animation: Shaking2 0.5s linear infinite;
+	animation-iteration-count: 1;
+}
+@-webkit-keyframes Shaking2 {
+  0%,
+  100% {-webkit-transform: rotate(-12deg) ;}
+  50%{-webkit-transform: rotate(12deg);}
+ }
+ 
+ 
+ /*旋转动画*/
+.rotate{
+  /*-webkit-animation: trophybg_rotate 1.2s linear infinite;*/
+  -webkit-animation: trophybg_rotate 3s linear infinite;
+}
+@-webkit-keyframes trophybg_rotate {
+  0%,
+  100% {    -webkit-transform: rotate(0deg) ;  }
+  50%{  	-webkit-transform: rotate(180deg);  }
+  100% {-webkit-transform: rotate(360deg); }
+}
+
+
+/*放大弹入*/
+.scaleAM{
+	-webkit-transition: all 0.05s;
+	-webkit-animation:scaleAM 0.2s ease both;
+}
+@-webkit-keyframes scaleAM {
+  0%{-webkit-transform:scale(0); }
+  70%{-webkit-transform:scale(1.1); }
+  80%{-webkit-transform:scale(0.9); }
+  100% { -webkit-transform:scale(1); }
+}
+/*放大弹入1：比较温柔*/
+.scaleAM1{
+	-webkit-transition: all 0.05s;
+	-webkit-animation:scaleAM1 0.2s ease both;
+}
+@-webkit-keyframes scaleAM1 {
+  0%{-webkit-transform:scale(0.5); }
+  100% { -webkit-transform:scale(1); }
+}

@@ -1,0 +1,70 @@
+         ///////////////////////////////////////////
+      //////////////////////////
+		/*
+		canvas文字换行
+		str:要绘制的字符串
+		ctx:canvas对象
+		initX:绘制字符串起始x坐标
+		initY:绘制字符串起始y坐标
+		lineHeight:字行高，自己定义个值即可
+		canvasWidth:画布的宽度
+		*/
+//		canvasTextAutoLine(str,ctx, initX, initY, lineHeight,canvasWidth) {
+		canvasTextAutoLine(obj) {
+			var str = obj.str
+			var ctx = obj.ctx
+			var initX = obj.initX
+			var initY = obj.initY
+			var lineHeight = obj.lineHeight
+			var canvasWidth = obj.canvasWidth
+			var size = obj.size || 22
+			var color = obj.color || "#000000"
+
+		    const arrText = str.split('')//字符串分割为数组
+		    let currentText = ''// 当前字符串及宽度
+		    let currentWidth
+		    //设置字体和颜色
+		    ctx.setFontSize(size), 
+    		ctx.setFillStyle(color)
+		    
+		    for (let letter of arrText) {
+		        currentText += letter
+		        currentWidth = ctx.measureText(currentText).width
+		        if (currentWidth > canvasWidth) {
+		            ctx.fillText(currentText, initX, initY)
+		            currentText = ''
+		            initY += lineHeight
+		        }
+		    }
+		    if (currentText) {
+		        ctx.fillText(currentText, initX, initY)
+		    }
+		},
+		
+		/**
+     * 渲染文字
+     *
+     * @param {Object} obj
+     */
+    drawText: function (obj) {
+        console.log('渲染文字')
+        var ctx = obj.ctx
+        var width = obj.width || ''
+        
+        ctx.save();
+        ctx.setFillStyle(obj.color);
+        ctx.setFontSize(obj.size);
+        ctx.setTextAlign(obj.align);
+        ctx.setTextBaseline(obj.baseline);
+        if (obj.bold) {
+            console.log('字体加粗')
+            ctx.fillText(obj.text, obj.x, obj.y - 0.5, width);
+            ctx.fillText(obj.text, obj.x - 0.5, obj.y, width);
+        }
+        ctx.fillText(obj.text, obj.x, obj.y);
+        if (obj.bold) {
+            ctx.fillText(obj.text, obj.x, obj.y + 0.5, width);
+            ctx.fillText(obj.text, obj.x + 0.5, obj.y, width);
+        }
+        ctx.restore();
+    },

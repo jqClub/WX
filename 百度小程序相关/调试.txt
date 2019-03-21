@@ -1,0 +1,17 @@
+放在app.js里，就可以直接调用了
+//var log = function() {
+//	var num1 = arguments[0]
+//	var num2 = arguments[1]
+//	
+//	if(typeof num2 == 'object') {
+//		num2 = JSON.stringify(num2)
+//	}
+//	//	//测试打印信息
+//	swan.showModal({
+//		title: num1,
+//		confirmText: '好的',
+//		showCancel: false,
+//		content: num2,
+//		success: function(res) {}
+//	})
+//}

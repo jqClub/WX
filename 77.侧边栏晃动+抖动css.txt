@@ -1,0 +1,56 @@
+ /*抖动的效果*/
+.rubberBand {
+	animation: rubberBand 0.5s ease-in infinite alternate;
+	-webkit-animation-name: rubberBand;
+	animation-name: rubberBand
+}
+
+@keyframes rubberBand {
+	0% {
+		-webkit-transform: scaleX(1);
+		transform: scaleX(1);
+		/*-webkit-transform: rotate(-6deg);*/
+	}
+	30% {
+		-webkit-transform: scale3d(1.15,.85,1);
+		transform: scale3d(1.15,.85,1);
+		/*-webkit-transform: scale3d(1.1,0.9,2);
+		transform: scale3d(1.1,0.9,2)*/
+	}
+	50% {
+		-webkit-transform: scaleX(1);
+		transform: scaleX(1);
+		/*-webkit-transform: rotate(6deg);*/
+	}
+	/*to {
+		-webkit-transform: scaleX(1);
+		transform: scaleX(1)
+	}*/
+}
+
+.rubberBand1 {
+	animation: rubberBand 2s ease-in infinite alternate;
+	-webkit-animation-name: rubberBand;
+	animation-name: rubberBand
+}
+
+@keyframes rubberBand1 {
+	0% {
+		-webkit-transform: scaleX(1);
+		transform: scaleX(1);
+	}
+	30% {
+		/*-webkit-transform: scale3d(1.15,.85,1);
+		transform: scale3d(1.15,.85,1)*/
+		-webkit-transform: scale3d(1.1,0.9,2);
+		transform: scale3d(1.1,0.9,2)
+	}
+	50% {
+		-webkit-transform: scaleX(1);
+		transform: scaleX(1);
+	}
+	/*to {
+		-webkit-transform: scaleX(1);
+		transform: scaleX(1)
+	}*/
+}

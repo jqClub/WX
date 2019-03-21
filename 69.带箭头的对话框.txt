@@ -1,0 +1,36 @@
+1.html样式--使用了:after样式
+<!--带气泡的边框样式-->
+<view class="bubble">床前明月光，疑是地上霜。</view>
+
+
+2.css样式
+.bubble {
+		position: relative;
+		padding:15rpx;
+		margin:0 0 3rpx;
+		width:300rpx;
+		line-height:1.2;
+		text-align:center;
+		color:#ffffff;
+		background:#075698;
+		
+		
+		border-radius:10px;
+		background:-webkit-gradient(linear, left top, left bottom, from(#f9d835), to(#f3961c));
+}
+
+.bubble:after {
+		content:"\00a0";
+		width:0;
+		height:0;
+		
+		display:block;
+		border-style:solid;
+		border-width:15rpx;
+		border-color:#f3961c transparent transparent transparent;
+		
+		position:absolute;
+		z-index:1;
+		bottom:-28rpx;
+		left:50rpx;
+}

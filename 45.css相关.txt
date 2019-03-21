@@ -11,5 +11,26 @@ https://zhuanlan.zhihu.com/p/23536784
 
 1. text-decoration-line: underline;  /*显示下划线*/
 
-
 2. word-break:break-all;   /* 换行*/
+
+3.在app.wxss中引入animate.wxss
+@import "/animate.min.wxss"，就可以在页面中使用（animated为必加的css样式）
+<view class="animated bounce">Example</view>
+
+备注：如果需要直接使用的话，复制相应的class的css样式，然后使用
+<view class="bounceIn">Example</view>
+
+4.去除button的样式（button）
+<button hoverClass="none" formType="submit"></button>
+
+
+5.处理安卓上没有字体加粗的问题：
+font-weight: 600;
+font-weight:bold;
+
+6.图片的命名规则：chushouziji_jq190116_erqod
+
+7.设置边框不占位置：box-sizing:border-box;
+
+8.background属性有个background-size属性，可以设置背景图片所占div的比例，可以拉伸或收缩。
+如果想在整个窗口显示背景图片，在body属性加上{background:url(); background-size:100% 100%;}

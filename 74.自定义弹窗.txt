@@ -1,0 +1,23 @@
+//	06.20针对报错给的提示信息
+	showModalNew: function(content, title) {
+		swan.showModal({
+			title: title ? title : '提示',
+			confirmText: '好的',
+			showCancel: false,
+			content: content,
+			success: function(res) {}
+		})
+	},
+  //分享语相关
+	showToastNew: function(title, time) {
+		//如果不存在,不去显示
+		if(!title) {
+			log('弹窗内容--', title)
+			return
+		}
+		swan.showToast({
+			title: title,
+			icon: 'none',
+			duration: time || 2000,
+		})
+	},

@@ -1,0 +1,115 @@
+.img{
+  width: 100%;
+  height: 100%;
+}
+
+.img_home_card1 {
+	width: 222rpx;
+	height: 154rpx;
+}
+
+
+/*19.1.17新增，猜你喜欢*/
+.adsBG_view{
+	width: 750rpx;
+	height: 258rpx;
+	position: relative;
+}
+
+.adsBG {
+	width: 100%;
+	height: 258rpx;
+	position: absolute;
+	top: 0;
+	z-index: 1;
+} 
+
+.adsBG_title{
+ z-index: 2; 
+ position: relative;
+ text-align: center;
+ 
+	 /*width:119px;
+	height:29px;*/
+	font-size:30rpx;
+	font-family:SourceHanSansCN-Regular;
+	font-weight:400;
+	/*color:rgba(254,241,206,1);*/
+	/*opacity:0.5;*/
+	
+	/*color: #FD7371;*/
+	
+	/*width: 50rpx;
+	position: absolute;
+	left: 30rpx;
+	top: 60rpx*/
+}
+
+
+.slider_view {
+	width:112rpx;
+	height:130rpx;
+}
+.slider_img {
+	width:112rpx;
+	height:112rpx;
+	background:rgba(134,134,134,1);
+	border:4rpx solid rgba(213, 95, 63, 1);
+	border-radius:50%;
+}
+
+
+/*.button
+{
+  margin: 20rpx;
+}*/
+.scroll-x {
+  display: flex;
+  flex-direction: row; 
+}
+.scroll-y {
+  display: flex;
+  flex-direction: column; 
+}
+.slider_clid {
+	display: flex;
+  align-items: center;
+  width: 112rpx;
+  height: 112rpx;
+  /*background: green;*/
+  
+  width:112rpx;
+	height:112rpx;
+	/*background:rgba(134,134,134,1);*/
+	border:4rpx solid rgba(213, 95, 63, 1);
+	border-radius:50%;
+}
+.slider_father {
+	font-size:28rpx;
+	font-family:SourceHanSansCN-Regular;
+	font-weight:400;
+	color:rgba(254,241,206,1);
+	
+	/*margin-left: 60rpx;*/
+		margin-right: 60rpx;
+	/*line-height:51rpx;*/
+	
+	/*width:112rpx;*/
+	/*height:112rpx;*/
+}
+
+.slider_father_button {
+	width: 120rpx;
+	padding: 0;
+	/*background: #FFA3A4;*/
+}
+
+.slider_father_button::after {
+    border: none;
+}
+
+.caini_title {
+	/*color: #FD7371;*/
+	color: #333333;
+	text-align: center;
+}

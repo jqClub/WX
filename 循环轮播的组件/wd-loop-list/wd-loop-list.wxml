@@ -1,0 +1,6 @@
+<view style="height: 100%; overflow: hidden;">
+	<view wx:for="{{doommData}}" style="animation:fadeInOut {{item.time}}s ease both;">
+	    <!--{{item.text.nickname}}-->
+	    {{item.text}}
+	</view>
+</view>

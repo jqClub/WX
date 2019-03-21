@@ -1,0 +1,73 @@
+<!------更多好玩----点击轮播的广告位置-->
+		<view style="position: absolute; top: 350rpx; right: 20rpx;">
+			<image bindtap="gotoApp" style="width: 150rpx; height: 150rpx;" src="{{chooseApp.img}}"  mode="widthFix"></image>
+		</view>
+		
+		
+		//19.1.28新增跳转链接
+		appLists: [
+			//语音
+			{
+				img: 'https://static.zuiqiangyingyu.cn/wb_webview/shuangshuangIMG/pintu.gif',
+				appKey: 'U2Cuw3kaO5nKsD61MQ4NjlKre5e6mzCU',
+				path: 'pages/userMatching/userMatching',
+			},
+		],
+		//随机显示一个
+		chooseApp: {
+			img: 'https://static.zuiqiangyingyu.cn/wb_webview/shuangshuangIMG/pintu.gif',
+			appKey: 'U2Cuw3kaO5nKsD61MQ4NjlKre5e6mzCU',
+			path: 'pages/userMatching/userMatching',
+		},
+		
+		
+	gotoApp() {
+		var that = this
+		var chooseApp = that.data.chooseApp
+		var appKey = chooseApp.appKey
+		var path = chooseApp.path
+		app.navigateToMiniProgramNew(appKey, path)
+	},
+	setCommand() {
+		var that = this
+		var appLists = that.data.appLists
+		var command = app.GetArrTarge(appLists)
+		//设置默认的口令信息
+		that.setData({
+			chooseApp: command,
+		})
+		log(111111, command)
+	},
+	
+	
+	onLoad(options) {
+		that = this;
+		
+		
+		 //19.1.28随机显示
+  		that.setCommand()
+		}
+		
+		
+		app.js里新增
+		///////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////
+ 	//数组随机取值
+	GetArrTarge: function(arr) {
+		var index = Math.floor((Math.random() * arr.length));
+		return arr[index]
+	},
+ //10.23新增，如果成功，才发送请求
+	navigateToMiniProgramNew: function(appKey, path, extraData) {
+		var that = this;
+		swan.navigateToSmartProgram({
+		    appKey: appKey, // 要打开的小程序 App Key
+		    path: path || 'pages/index/index', // 打开的页面路径，如果为空则打开首页
+		    extraData: extraData || {},
+		    success: function (res) {
+		        // 打开成功
+		    }
+		});
+	},
+	 ///////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////

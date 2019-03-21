@@ -1,0 +1,6 @@
+template模块与component组件，是小程序中组件化的方式。二者的区别是，template模块主要是展示，方法需要在使用template的页面中定义。
+而component组件，则拥有自己的js文件，整个component组件类似一个page页面。
+简单来说，只是展示用，建议使用template，组件中涉及到较多的逻辑，建议使用component。
+
+
+祥见：https://www.jianshu.com/p/99c61f42122c

@@ -1,0 +1,48 @@
+A.微信：
+1.formId.js文件放在utils文件夹下
+1）html文件里写
+<form bindsubmit="formSubmit" report-submit="true">	
+	<!--最外层的 bindsubmit="formSubmit"用来收集用户的fromid-->
+	<!--button formType="submit"，button加上这个，才会触发请求。只有button加上才有效，view标签加上，不会发送请求-->
+	<!--hoverClass="none" 去除button的样式-->
+	<button formType="submit" hoverClass="none" >
+		
+	</button>
+</form>
+
+2.页面js文件中引入
+//12.24收集formId
+import formId from '../../utils/fromId/formId.js'
+
+//12.24新增，收集formId
+   formSubmit(event) {
+    formId.save({
+      	event: event,
+		isDev: false,
+		//12.24新增，使用appid的值
+		appId: 'wx785bf0e261c3851f',
+		//用来登录的appName
+		appName: 'chushouziji',
+    })
+  },
+ 
+
+ 
+  
+B.百度收集fromid:
+百度收集的是swan_id，因为未登录的时候，获取不到openId。所以统计传swan_id过去
+<form bindsubmit="formSubmitHandle" report-submit>
+    <button  form-type="submit">提交</button>
+</form>
+
+//19.1.9新增,收集fromId
+var formId = require("../../utils/formId.js") 
+
+//19.1.9新增，收集formI，需要放在页面根（index.js）目录下（否则在安卓上没有反应）
+formSubmitHandle :function(event) {
+	var that = this
+	formId.saveFromId(that, {
+		event: event,
+	})
+},
+  

@@ -9,7 +9,7 @@ http://www.wxapp-union.com/portal.php?mod=view&aid=1996
 <form bindsubmit="formSubmit" report-submit="true">	
 	<!--最外层的 bindsubmit="formSubmit"用来收集用户的fromid-->
 	<!--button formType="submit"，button加上这个，才会触发请求。只有button加上才有效，view标签加上，不会发送请求-->
-	<button formType="submit" >
+	<button formType="submit" hoverClass="none" >
 		
 	</button>
 </form>

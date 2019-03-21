@@ -1,0 +1,16 @@
+<view class=" comp myclass">
+	<view class="display_flex" style="flex-direction: column;" bindtap="toMiniProgram">
+      <slot></slot>
+    </view>
+  <!--<block wx:if="{{canIUse}}">
+    <view class="display_flex" style="flex-direction: column;" bindtap="toMiniProgram">
+      <slot></slot>
+    </view>
+  </block>
+
+  <block wx:else>
+    <navigator class="display_flex" style="flex-direction: column;" hover-class="none" target="miniProgram" app-id="{{appid}}" path="{{path}}" version="{{version}}">
+      <slot></slot>
+    </navigator>
+  </block>-->
+</view>

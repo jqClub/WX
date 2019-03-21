@@ -1,0 +1,123 @@
+1.app.data里设置音效
+//音频文件
+musicAll: {
+	index: 'https://static.zuiqiangyingyu.cn/admin/1901/chushouziji_jq190116_index.mp3',
+	retest: 'https://static.zuiqiangyingyu.cn/admin/1901/chushouziji_jq190116_reset.wav',
+},
+
+2.index.js文件
+//19.1.18设置音效
+import {playMusic} from '../../utils/playMusic.js'
+
+	onLoad: function() {
+		var that = this
+		//初始化函数
+		  playMusic(that)
+		  that.playMusic.set()
+	},
+//播放音效
+    play: function() {
+    	var that = this
+    	var musicAll = app.data.musicAll
+    	that.playMusic.play({
+		  	src: musicAll.index,
+		})
+    },
+    onShow(options) {
+		var that = this
+//      设置 innerAudioContext
+		that.playMusic.set()
+	},
+	onUnload: function() {
+		var that = this;
+		that.playMusic.destory()
+	},
+	
+	
+	1.html文件（侧边栏）
+	<view wx:if="{{bmsAdData.sdk_suspend_ads.length && bmsControl.show_ad}}" bindtap="play">
+		  <sidebar list="{{bmsAdData.sdk_suspend_ads}}" list2="{{bmsAdData.sdk_suspend_ads1}}" bind:trigger="navigateToMiniProgramBySidebar"></sidebar>
+	</view>
+	//------------------------------
+
+//11.14新增，使用innerAudioContext
+var innerAudioContext1
+
+
+	onLoad(options) {
+		var that = this
+//      设置 innerAudioContext
+		that.setInnerAudioContext()
+	},
+	
+	onShow(options) {
+		var that = this
+//      设置 innerAudioContext
+		that.setInnerAudioContext()
+	},
+	onUnload: function() {
+		var that = this;
+		that.stopVideo()
+		
+//		//11.14新增
+		if(innerAudioContext1) {
+			innerAudioContext1.destroy();
+		}
+	},
+	
+	/////////////////////////////////////////
+	setInnerAudioContext: function() {
+		var that = this
+		//11.14修改
+		if(innerAudioContext1) {
+//			//如果已经有了,不去设置
+			innerAudioContext1.destroy()
+			
+			that.setInnerAudioContextCall()
+		} else {
+			that.setInnerAudioContextCall()
+		}
+	},
+	/////////////////////////////////
+	setInnerAudioContextCall: function() {
+		var that = this
+		//在这里去获取createInnerAudioContext音频
+			innerAudioContext1 = wx.createInnerAudioContext()
+
+			innerAudioContext1.onPlay(() => {
+			  console.log('开始播放')
+			  that.setData({style: true})
+				app.data.ajax_num.mic_erro = 0  ;
+			})
+			innerAudioContext1.onEnded(() => {
+			  console.log('自然停止')
+			  	//所有按钮图标
+					that.stop_playicon();
+			})
+	},
+	
+	//播放
+	playVideoNew: function(let_url) {
+		var that = this;
+		console.log('开始播放音乐', let_url)		
+		
+//		//11.14试试先销毁,再去使用
+//		that.destroyInnerAudioContext1()
+		
+		//11.14修改(使用innerAudioContext1去播放)
+		innerAudioContext1.autoplay = true
+		innerAudioContext1.src = let_url
+		innerAudioContext1.play()
+	},
+	//暂停
+	stopVideo: function() {
+		var that = this;
+//		//11.1修改新增暂停的方法(用上面的方法,会导致无法再次播放)
+		//设置播放状态
+		that.setData({
+			style: false
+		})
+		
+		//11.14修改,先只暂停
+		innerAudioContext1.pause()
+	},

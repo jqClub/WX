@@ -1,0 +1,200 @@
+1.在scripts文件，右键，生成脚本。会默认生成部分代码
+properties： // 规定一个节点具有的全部属性，都需要写在properties里面（比如跳动速度，高度，事件等属性）
+properties: {
+        // 主角跳跃高度
+        jumpHeight: 0,
+        // 主角跳跃持续时间
+        jumpDuration: 0,
+        // 最大移动速度
+        maxMoveSpeed: 0,
+        // 加速度
+        accel: 0,
+    },
+
+2.首先添加play跳动的事件，主要用到了动作（Action）系统
+setJumpAction: function () {
+	// 跳跃上升
+	var jumpUp = cc.moveBy(this.jumpDuration, cc.v2(0, this.jumpHeight)).easing(cc.easeCubicActionOut());
+	// 下落
+	var jumpDown = cc.moveBy(this.jumpDuration, cc.v2(0, -this.jumpHeight)).easing(cc.easeCubicActionIn());
+	// 不断重复
+	return cc.repeatForever(cc.sequence(jumpUp, jumpDown));
+},
+
+3.在onLoad函数中，该方法会在场景加载后立刻执行，所以我们会把初始化相关的操作和逻辑都放在这个里
+onLoad: function () {
+	// 初始化跳跃动作，setJumpAction返回一个
+	this.jumpAction = this.setJumpAction();
+	//this.node指的就是当前的节点
+	this.node.runAction(this.jumpAction);
+},
+
+4.移动控制，主要监听键盘事件，通过点击a和d来左右移
+4.1）在properties 新增参数 {
+	// -------------------------
+	// 1.7新增配置参数
+	// 加速方向的开关
+	accLeft: false,
+	accRight: false,
+	// 水平方向的加速度
+	xSpeed: 0, 
+}
+
+4.2）按下和松开的事件
+// 监听移动控制的事件
+    onKeyDown: function(event) {
+        // 键盘按下
+        var that = this
+        var keyCode = event.keyCode
+        var macroKey = cc.macro.KEY
+        if(keyCode == macroKey.a) {
+            this.accLeft = true
+        } else if(keyCode == macroKey.d) {
+            this.accRight = true
+        }
+        // log(11111, that.accLeft, this.accRight)
+    },
+    onKeyUp: function(event) {
+         // 键盘松开
+        var that = this
+        var keyCode = event.keyCode
+        var macroKey = cc.macro.KEY
+        if(keyCode == macroKey.a) {
+            this.accLeft = false
+        } else if(keyCode == macroKey.d) {
+            this.accRight = false
+        }
+        // log(11111, that.accLeft, this.accRight)
+    },
+	
+4.3)然后在onload里去，监听点击的事件
+onLoad() {
+	// 初始化键盘输入监听
+	cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
+	cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
+},
+
+4.4）在update去更新节点的速度和x的位置
+// 更新节点的坐标和速度，update在场景加载后，就会每帧调用一次，
+// 一般把经常需要计算或更新的放在这里
+update (dt) {
+	var that = this
+	if(that.accLeft) {
+		that.xSpeed -= that.accel * dt
+	} else if(that.accRight) {
+		that.xSpeed += that.accel * dt
+	}
+
+	if(Math.abs(that.xSpeed) > that.maxMoveSpeed) {
+		// 乘以对应的符号，Math.abs是取绝对值
+		var symbol = that.xSpeed / Math.abs(that.xSpeed)
+		that.xSpeed = that.maxMoveSpeed * symbol
+	}
+	//设置节点的x坐标
+	this.node.x = that.xSpeed
+},
+
+5.预制星星（对于重复的节点，可以把他保存成Prefab（预制资源））
+5.1）首先拖拽图片到层级管理中，并添加一个Star.js脚本
+5.2）编辑脚本，在properties中 添加pickRadius：星星和主角收集的最小距离
+5.3）将star拖拽到资源管理器中的 assets 文件夹下，就生成了Prefab 预制资源
+5.4）删除star 节点，后续直接双击Prefab资源进行编辑
+
+
+6.新增一个Game.js文件，放入游戏
+6.1）选中Canvas画布，然后新增脚本（选择Game.js）
+properties: {
+        starPrefab: {
+            default: null,
+            type: cc.Prefab, // 引用预制节点
+        },
+        // 星星产生后消失时间的随机范围
+        maxStarDuration: 0,
+        minStarDuration: 0,
+        // 地面节点，用于确定星星生成的高度
+        ground: {
+            default: null,
+            type: cc.Node
+        },
+        // player 节点，用于获取主角弹跳的高度，和控制主角行动开关
+        player: {
+            default: null,
+            type: cc.Node
+        },
+    },
+	
+	6.2）将Prefab放入starPrefab，将ground节点放入ground，将Player放入player
+
+7. 7.1）如果获取节点设置的properties属性:this.player.getComponent('Player').jumpHeight
+7.2）如果获取节点的坐标，宽高属性：this.player.height
+
+8.通过预制资源生成一个新的节点
+spawnNewStar: function() {
+	var that = this
+	// 使用给定的模板在场景中生成一个新节点
+	var newStar = cc.instantiate(this.starPrefab);
+	// 将新增的节点添加到 Canvas 节点下面
+	this.node.addChild(newStar);
+	// 为星星设置一个随机位置
+	newStar.setPosition(0, 0);
+},
+
+8.1）锚点默认在节点的中心，instantiate 方法的作用是：克隆指定的任意类型的对象，或者从 Prefab 实例化出新节点，返回值为 Node 或者 Object
+8.2）通过 Node 下的 getComponent 方法可以得到该节点上挂载的组件引用通过 Node 下的 getComponent 方法可以得到该节点上挂载的组件引用
+
+
+9.注册点击的事件
+// 使用枚举类型来注册，点击的事件
+        // that.node.on(cc.Node.EventType.TOUCH_START, function (event) {
+        //     console.log('Mouse down');
+        // }, this);
+
+        // 使用事件名来注册，点击的事件
+        // that.node.on('touchstart', function (event) {
+        //     console.log(event)
+        //     console.log('Mouse down', event.getLocation());
+        // }, this);
+		
+10. //如何在星星组件上，获取主角的坐标？
+	// 在星星组件上暂存 Game 对象的引用
+	10.1）newStar.getComponent('Star').game = this;
+	
+        // that.player.getComponent('Player').game = this;
+	
+	10.2）就可以在Star.js里直接获取game：// 根据player节点位置来判断var playerLocal = that.game.player.getPosition()
+	
+11.添加分数
+11.1）在canvs上右键新建一个label，修改score
+11.2）在game.js里新建一个
+ // 得分 节点，用于获取主角弹跳的高度，和控制主角行动开关
+scoreDisplay: {
+	default: null,
+	type: cc.Label  //*这里的类型换成了Label */
+},
+11.3）将score拖拽到新建中
+11.4）修改数字
+that.scoreDisplay.string = 'score: ' + 11
+
+在game里添加得分的逻辑，然后在star里去调用
+
+12.
+// 跳跃音效资源--引入资源
+jumpAudio: {
+	default: null,
+	type: cc.AudioClip
+},
+
+// 播放音效--回调函数
+playJumpSound: function () {
+	// 调用声音引擎播放声音
+	cc.audioEngine.playEffect(this.jumpAudio, false)
+},
+
+//  增加一个音效的回调函数
+var callback = cc.callFunc(this.playJumpSound, that)
+// 不断重复
+return cc.repeatForever(cc.sequence(jumpUp, jumpDown, callback))
+
+
+
+	

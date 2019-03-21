@@ -1,0 +1,29 @@
+<view class="ad-wrap" wx:if="{{mask.success}}">
+              <ad class="ad" unit-id="adunit-63e5ba76328ed5af" />
+            </view>
+			
+			
+
+/* 广告 */
+.ad {
+  margin-top: 20rpx;
+}
+.ad-wrap {
+  overflow: hidden;
+  position: relative;
+  animation: ad 1s 1s both;
+}
+@keyframes ad {
+  0% {
+    height: 0;
+    min-height: 0;
+  }
+  90% {
+    height: 0;
+    min-height: 200rpx;
+  }
+  100% {
+    height: auto;
+    min-height: 200rpx;
+  }
+}

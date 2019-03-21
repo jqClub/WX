@@ -1,0 +1,117 @@
+ address_btn_s:function(){
+    var that=this;
+    var order_id = that.data.order_id;
+    var receiver_name = that.data.address.userName;
+    var receiver_phone = that.data.address.telNumber;
+    var receiver_province = that.data.address.provinceName;
+    var receiver_city = that.data.address.cityName;
+    var receiver_region = that.data.address.countyName;
+    var receiver_address = that.data.address.detailInfo;
+
+
+    wx.request({
+      url: app.data.bastUrl + 'redpacket_speech/bargain/Save_address',
+      method: 'POST',
+      data: {
+        token: getApp().data.userInfo.token,
+        order_id: order_id,
+        receiver_name: receiver_name,
+        receiver_phone: receiver_phone,
+        receiver_province: receiver_province,
+        receiver_city: receiver_city,
+        receiver_region: receiver_region,
+        receiver_address: receiver_address
+      },    //参数为键值对字符串
+      header: {
+        //设置参数内容类型为x-www-form-urlencoded
+        'content-type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json'
+      },
+      success: function (res) {
+        console.log("上传收货地址", res);
+        if (res.data.c == 0) {
+          // 支付接口
+          wx.request({
+            url: app.data.bastUrl + 'redpacket_speech/bargain/Pay',
+            method: 'POST',
+            data: {
+              token: getApp().data.userInfo.token,
+              order_id: order_id
+            },    //参数为键值对字符串
+            header: {
+              //设置参数内容类型为x-www-form-urlencoded
+              'content-type': 'application/x-www-form-urlencoded',
+              'Accept': 'application/json'
+            },
+            success: function (res) {
+              if (res.data.c == 0){
+                console.log("需要支付接口返回", res);
+                var timeStamp = res.data.d.timeStamp
+                var nonceStr = res.data.d.nonceStr
+                var packages = res.data.d.package
+                var paySign = res.data.d.paySign;
+                wx.showModal({
+                  title: '提示',
+                  content: '请确认收货地址是否有误，点击确认完成支付！',
+                  success: function (res) {
+                    if (res.confirm) {
+                      wx.requestPayment({
+                        'timeStamp': timeStamp,
+                        'nonceStr': nonceStr,
+                        'package': packages,
+                        'signType': 'MD5',
+                        'paySign': paySign,
+                        'success': function (res) {
+                          wx.navigateTo({
+                            url: '../MyOrder/MyOrder',
+                          })
+                        },
+                        'fail': function (res) {
+                          wx.showModal({
+                            title: '提示',
+                            content: res,
+                            showCancel: false
+                          });
+                        }
+                      })
+                    } else {
+                      console.log('用户点击取消')
+                    }
+                  }
+                })
+              } else if (res.data.c == 600){
+                console.log("不需要支付接口返回", res);
+                var caution = res.data.m
+                wx.showModal({
+                  title: '提示',
+                  content: caution,
+                  showCancel: false
+                });
+                setTimeout(function(){
+                  wx.navigateTo({
+                    url: '../MyOrder/MyOrder',
+                  })
+                },2000)
+              }else {
+                var caution = res.data.m
+                wx.showModal({
+                  title: '提示',
+                  content: caution,
+                  showCancel: false
+                });
+              }
+            }
+          });
+        }else{
+          var caution = res.data.m
+          wx.showModal({
+            title: '提示',
+            content: caution,
+            showCancel: false
+          });
+        }
+      }
+    });
+
+    
+  },

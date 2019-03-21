@@ -1,0 +1,20 @@
+把2个js文件放入utils文件
+
+  ### 接口文档
+  import wxShare from '../../utils/share/wxShare.js'; // 建议加上版本后缀
+
+  onShow() {
+    wxShare.bindShow()
+  }
+
+  onShareAppMessage() {
+    return wxShare.main({
+      isDev: false, // false-正式域名, true-开发域名, 默认为false
+      successNeedTime: 3000,  // 如果不能通过图片加载判断, 就根据该时间判断，默认为 3 秒
+      title: '',
+      path: '',
+      imageUrl: '',
+      successCallback() {},
+      failCallback() {},
+    })
+  },

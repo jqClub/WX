@@ -1,0 +1,153 @@
+页面css需加上
+/*19.1.18,处理页面可滑动的bug*/
+    width: 750rpx;
+    overflow-x: hidden;
+
+
+1.index.json引入需要的组件
+{
+    "usingComponents": {
+        "sidebar": "../../components/sidebar/index",
+		"wd-loop-ad": "../../components/wd-loop-ad/wd-loop-ad"  
+    }
+}
+
+2.index.html中加入。list--是获取的点击跳转小程序，list2--是点击图片，显示二维码的功能
+<view wx:if="{{bmsAdData.sdk_suspend_ads.length}}">
+  <sidebar list="{{bmsAdData.sdk_suspend_ads}}" list2="{{bmsAdData.sdk_suspend_ads1}}" bind:trigger="navigateToMiniProgramBySidebar"></sidebar>
+</view>
+
+<!--轮播的组件-->
+<view   class="button_img" hoverClass="none">
+	<wd-loop-ad ad-list="{{bmsAdSave}}" flag="save" >
+		XXXXX
+	</wd-loop-ad>
+</view> 
+
+3.index.js中加入
+Page({
+    data: {
+        //12.21新增广告列表
+        bmsAdData: {},
+    },
+	onLoad: function() {
+    	var that = this
+		//放在onLoad里面，把广告显示的请求放在组件中，点击展开的时候，才出现
+    	that.setBms()
+    },
+	setBms() {
+		var that = this
+	    const { bmsAd } = app
+	    if(!bmsAd) {
+	    	//没有不显示
+	    	return
+	    }
+		
+		bmsAd.getMsg('save', true).then((res) => {
+	    	log(1111, res)
+	    	that.setData({
+	    		bmsAdSave: res || {},
+	    	})
+	    })
+	    
+	    bmsAd.getMsg('sdk_suspend_ads', true).then((res) => {
+	    	var list = res
+	    	//12.21新增修改
+		      var list1 = []
+		      var list2 = []
+		      //12.21新增这里需要找到对应类型的
+		      for(var i = 0; i < list.length; i++) {
+						var a = list[i]
+						if(a.type == 1) {
+							//说明是广告类型，1小程序跳转，2海报
+							list1.push(a)
+						} else if(a.type == 2) {
+							list2.push(a)
+						}
+				} 
+		this.setData({ 'bmsAdData.sdk_suspend_ads': list1 })
+	      this.setData({ 'bmsAdData.sdk_suspend_ads1': list2 })
+	      
+//	      this.setData({ 'bmsAdData.sdk_suspend_ads': res })
+//	      bmsAd.subMsg(res) // 展示元素时调用
+	    })
+	  }，
+	  //点击跳转的事件
+	  navigateToMiniProgramBySidebar: app.navigateToMiniProgramBySidebar,
+})
+
+4.app.js去添加
+var log = console.log.bind(console)
+import BmsAd from './utils/bms-ad.v2'
+
+//app.js
+App({
+	data: {
+		//应用信息
+		logmsg: {
+			appName: '2019dashi',
+		},
+	},
+    onLaunch: function() {
+        this.hide();
+        var that = this
+    	
+//      //获取广告信息
+        const bmsAd = new BmsAd({
+	      appName: '2019dashi',
+	      isDev: isDev,
+	    })
+	    this.bmsAd = bmsAd
+    },
+      navigateToMiniProgram({ currentTarget }) {
+	    const { msg } = currentTarget.dataset
+	    this.bmsAd.subMsg(msg, true) // 点击元素时调用
+	  },
+	  navigateToMiniProgramBySidebar({ detail }) {
+	    const { msg } = detail
+	    this.bmsAd.subMsg(msg, true) // 点击元素时调用
+	  }, 
+	  
+	  //10.23新增，如果成功，才发送请求
+	navigateToMiniProgramNew: function(appid, path, data, envVersion, callBack) {
+		var that = this;
+		appid = appid ? appid : 'wxf2a06e4b30d4ad83';
+		console.log("准备进入小程序", appid, path, data)
+		
+		log(111111, wx.canIUse('navigator.target'))
+		var canIuse = wx.canIUse('navigator.target')
+		//10.23新增先判断下版本，然后再去执行下面的方法，不执行下面的方法
+		if(canIuse) {
+			//如果是支持navigateToMiniProgram方法,就使用新的
+			return
+		}	
+		
+		if(wx.navigateToMiniProgram) {
+			try {
+				wx.navigateToMiniProgram({
+					appId: appid,
+					path: path ? path : 'pages/index/index',
+					extraData: data ? data : {
+						foo: 'bar'
+					},
+					envVersion: envVersion || 'develop',
+					success(res) {
+						if(typeof callBack == 'function') {
+							callBack()
+						}
+					},
+				})
+			} catch(e) {}
+		} else {
+			wx.showModal({
+				title: '鸭鸭提示',
+				showCancel: false,
+				confirmText: '好的',
+				content: '微信版本过低不支持该功能，请更新后体验',
+				success: function(res) {
+					if(res.confirm) {} else if(res.cancel) {}
+				}
+			})
+		}
+	},
+});

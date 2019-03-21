@@ -1,0 +1,111 @@
+借鉴：https://juejin.im/post/5b93ebfbf265da0ad2216c76
+
+1.方法1<!--抛物线进入-->使用了wx.createAnimation方法
+<view animation="{{animationData}}"  style="background:red;height:100rpx;width:100rpx"></view>
+<view catchtap="setbeizer">进入抛物线</view>
+
+
+//js文件
+//1.3新增抛物线进入
+setbeizer: function() {
+	var that = this
+	//这里设置一个新的动画效果
+	var animation = wx.createAnimation({
+	  duration: 30,
+	  timingFunction: "ease",
+	  delay: 0,
+	})
+	this.animation = animation
+	//不同的坐标点
+	animation.translate3d(0, 0, 0).opacity(1).step()
+	animation.translate3d(50, -10, 0).step()
+	animation.translate3d(100, -30, 0).step()
+	animation.translate3d(150, 10, 0).step()
+	animation.translate3d(200, 20, 0).step()
+
+	animation.translate3d(230, 40, 0).step()
+	animation.translate3d(245, 70, 0).step()
+	animation.translate3d(265, 110, 0).step()
+	animation.translate3d(285, 140, 0).step()
+	animation.translate3d(300, 170, 0).step()
+	animation.translate3d(314, 190, 0).opacity(0).step()
+	//增加一步回到原来的位置，不然不会从起点开始动
+	animation.translate3d(0, 0, 0).opacity(0).step()
+		
+	this.setData({
+	  animationData:animation.export()
+	})
+},
+
+
+快速点击的情况下，会有点掉帧，不过第一种方法，当时间设置很长的时候，会有点卡顿。建议使用第一种
+2.方法2<!--抛物线进入-->使用js的方法去执行
+<!--抛物线进入方法4-->
+<button catchtap="run1">开始</button>
+<view class="box {{addClass ? 'inner_box' : ''}}">
+<view class="inner {{addClass ? 'inner_clib' : ''}}">
+	123
+</view>
+</view>
+
+2）js方法
+	  run1() {
+	  	var that = this
+	  	
+	  	that.setData({
+	  		addClass: true,
+	  	})
+	  	//这里设置是动画执行完的时间，为一个周期。用去执行下一个动画
+	  	that.timerNum = setTimeout(function() {
+	  		that.setData({
+		  		addClass: false,
+		  	})
+	  	}, 1000)
+	  },
+
+
+3）css样式  
+	   /*抛物线动画*/
+.inner{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background:blue;
+    transition:0.5s all cubic-bezier(0.14,-1.33,1,0.18);
+   transform: translate(350rpx, 350rpx);
+   opacity: 0;
+  }
+  .inner_box {
+   animation: da 1s 0s cubic-bezier(0.8,0.16,0.9,0.57) forwards;
+  }
+  .inner_clib {
+   animation: da2 1s 0s linear forwards;
+  }
+  
+   @keyframes da {
+   0% {
+   	opacity: 1;
+     transform: translateX(350rpx);
+   }
+   99% {
+   	opacity: 1;
+   	transform: translateX(0);
+   }
+   100% {
+      transform: translate(350rpx, 350rpx);
+   }
+ }
+ @keyframes da2 {
+   0% {
+   	opacity: 1;
+     transform: translateY(350rpx);
+   }
+   99% {
+   	opacity: 1;
+   	transform: translateY(0);
+   }
+   100% {
+      transform: translate(350rpx, 350rpx);
+   }
+ }

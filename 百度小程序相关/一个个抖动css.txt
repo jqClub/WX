@@ -1,0 +1,69 @@
+<block wx:for="{{list}}" wx:key="list">
+      	<my-mp class="btn"  appid="{{item.adWxAppId}}" path="{{item.path}}" data-msg="{{item}}" bindtap="trigger">
+          <image class="btn__img {{index+1 == showIndex ? 'rubberBand' : ''}}" src="{{item.image}}" mode="widthFix"></image>
+          <view class="btn__text">{{item.title}}</view>
+       </my-mp>
+      </block>
+	  
+	  
+	  
+/*---------------------------------------*/
+@keyframes rubberBand {
+	0% {
+		-webkit-transform: scaleX(1);
+		transform: scaleX(1);
+		/*-webkit-transform: rotate(-6deg);*/
+	}
+	30% {
+		-webkit-transform: scale3d(1.15,.85,1);
+		transform: scale3d(1.15,.85,1);
+		/*-webkit-transform: scale3d(1.1,0.9,2);
+		transform: scale3d(1.1,0.9,2)*/
+	}
+	50% {
+		-webkit-transform: scaleX(1);
+		transform: scaleX(1);
+		/*-webkit-transform: rotate(6deg);*/
+	}
+	/*to {
+		-webkit-transform: scaleX(1);
+		transform: scaleX(1)
+	}*/
+}
+
+.rubberBand {
+	animation: rubberBand 0.5s ease-in infinite alternate;
+	-webkit-animation-name: rubberBand;
+	animation-name: rubberBand
+}
+
+
+//---------------------------------------------------
+detached: function() {
+    	//组件移除时执行
+    	that.clearTimer()
+    },
+    //开始定时器
+    setInter(len) {
+    	var that = this
+    	var i = 0
+    	timer = setInterval(function() {
+    		log('-开启定时器-')
+    		i++
+    		if(i > len) {
+    			i = 0
+    		}
+    		that.setData({
+    			showIndex: i,
+    		})
+//  		log(i)
+    	}, 500)
+    },
+    //关闭定时器
+    clearTimer() {
+    	var that = this
+    	if(timer) {
+    		log('-关闭定时器-')
+    		clearInterval(timer)
+    	}
+    },

@@ -1,0 +1,28 @@
+<view class="comp myclass {{isOpen && 'comp--open'}}">
+  <view class="mask" bindtap="switch" />
+
+  <view class="main ">
+    <view class="switch {{isOpen ? '' : 'rubberBand'}}" bindtap="switch" style="position: relative;">
+      <image class="switch__img " src="./arrow-r.png" mode="widthFix"></image>
+      
+      <view class="red_dot"></view>
+    </view>
+
+    <view class="btns {{list.length>5 ? 'btns--row' : 'btns--col'}}">
+      <block wx:for="{{list}}">
+        <my-mp class="btn" appid="{{item.adWxAppId}}" path="{{item.path}}" data-msg="{{item}}" bindtap="trigger">
+          <image class="btn__img rubberBand" src="{{item.image}}" mode="widthFix"></image>
+          <view class="btn__text">{{item.title}}</view>
+        </my-mp>
+      </block>
+      
+      <!--12.21新增,这个是展示图片信息-->
+      <block wx:for="{{list2}}">
+        <button class="btn" appid="{{item.adWxAppId}}" path="{{item.path}}" data-msg="{{item}}" bindtap="openImg" hover-class="false">
+          <image class="btn__img" src="{{item.image}}" mode="widthFix"></image>
+          <view class="btn__text">{{item.title}}</view>
+        </button>
+      </block>
+    </view>
+  </view>
+</view>

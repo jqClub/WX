@@ -1,0 +1,88 @@
+1.html文件
+<!--这里设置一个列表-->
+<view style=' background: blue; height: 300rpx; position: relative;'>
+	<block wx:for="{{modList}}" wx:key="unique">
+		<!--第一个方法，比较缓慢。下面的方法稍快一点，建议使用下面的第二种方法-->
+		<!--<view class="dom_list_all moveUpDown2" style="animation: myfirst2 36s {{index*1.8}}s linear infinite;">-->
+		<view class="dom_list_all moveUpDown2" style="animation: myfirst3 16s {{index*0.8}}s linear infinite;">
+			{{index}}--{{item}}
+		</view>
+	</block>
+</view>
+
+
+2.js文件
+var oldList = []
+for(var i = 0; i < 20; i++) {
+	oldList.push('我听见雨滴落在轻轻草地...你听力可真好')
+}
+//设置列表数据
+that.setData({
+	modList: oldList,
+})
+
+
+3.css样式
+/*12.28*/
+.dom_list_all {
+	height: 72rpx;
+	
+	background: red; 
+	position: absolute;
+	bottom: 0;
+	
+	font-size: 28rpx;
+}
+
+/*原来的间距*/
+.moveUpDown2 {
+	-webkit-transform:scale(0);
+}
+@keyframes myfirst2 {
+	0% {
+	   transform: translateY(0);
+	   opacity: 1;
+	}
+	98% {
+		transform: translateY(-1600rpx);
+	   opacity: 1;
+	}
+	99% {
+	   transform: translateY(-1600rpx);
+	   opacity: 0;
+	}
+	100% {
+	  transform: translateY(0);
+	  opacity: 0;
+	}
+	0%{-webkit-transform:scale(0); }
+	/*0.5%{-webkit-transform:scale(1); }*/
+	/*这里可以设置放大的时间，如果想快速的话，可以使用上面*/
+	0.2%{-webkit-transform:scale(1.1); }
+	0.5%{-webkit-transform:scale(1); }
+}
+
+/*-------------------------------*/
+@keyframes myfirst3 {
+	0% {
+	   transform: translateY(0);
+	   opacity: 1;
+	}
+	20% {
+		transform: translateY(-360rpx);
+	   opacity: 1;
+	}
+	21% {
+	   transform: translateY(-360rpx);
+	   opacity: 0;
+	}
+	100% {
+	  transform: translateY(0);
+	  opacity: 0;
+	}
+	/*放大和缩小的动画效果*/
+	0%{-webkit-transform:scale(0); }
+	1%{-webkit-transform:scale(1.1); }
+	3%{-webkit-transform:scale(1); }
+}
+/*-------------------------------*/

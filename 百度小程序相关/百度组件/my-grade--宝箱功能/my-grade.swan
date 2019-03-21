@@ -1,0 +1,65 @@
+<!--宝箱功能-->
+<view class="global">
+	<view s-if="{{!treasure.type}}">
+		
+		<view  class="scaleAM1 display_flex global_view">
+		  	<image class="treasureTitle" style="margin-top: 120rpx;" src="https://static.zuiqiangyingyu.cn/wb_webview/caigebaidu_jq/treasureTitle.png" ></image>
+		  	
+		  	<view class="light_view" >
+		  		<image class="rotate light" src="https://static.zuiqiangyingyu.cn/wb_webview/caigebaidu_jq/light.png" ></image>
+		  		<image class="child_center treasureClose" src="https://static.zuiqiangyingyu.cn/wb_webview/caigebaidu_jq/treasureClose.png" ></image>
+		  		
+		  		
+		  		<!--进度条功能-->
+		  		<view class="progress_about">
+				  	<view class="progress_view">
+				  		<view class="progress_bottom"></view>
+				  		<view class="progress_top" style="width: {{progress_width}}rpx;"></view>
+				  		
+				  		<!--显示还有多少秒-->
+				  		<!--<view class="child_center progress_time">{{remainingTime}}s</view>-->
+				  		<view class="absolute_left progress_time">{{remainingTime}}s</view>
+				  	</view>
+			  	</view>
+		  	</view>
+		  	
+		  	<view class="click_text" style="margin-top: 30rpx;">点的越快，奖励越多喔！</view>
+		  	
+		  	<view s-if="{{!treasure.showAd}}" class="btn_bottom w600h90" style="margin-top: 15rpx;">
+		  		<view catchtap="clickAll" data-clicktype="clickTime" class="child_center">狂点打开</view>
+		  		<image catchtap="clickAll" data-clicktype="clickTime" class="btn1" src="https://static.zuiqiangyingyu.cn/wb_webview/caigebaidu_jq/btn2.png"></image>
+		  	</view>
+	  </view>
+	  
+	  <!--关闭按钮-->
+		<image s-if="{{treasure.delayed}}" catchtap="clickAll" data-clicktype="close" class="global_close" src="https://static.zuiqiangyingyu.cn/wb_webview/caigebaidu_jq/close.png" ></image>
+	  
+	  	<view s-if="{{treasure.showAd}}" style="height: 250rpx;">
+	  		<slot></slot>
+	  	</view>
+  </view>
+  
+ 	<!--领取奖励，继续答题-->
+ 	<view s-else>
+ 		<view class="scaleAM1 display_flex global_view">
+	 		<image class="getReward" style="margin-top: 120rpx;" src="https://static.zuiqiangyingyu.cn/wb_webview/caigebaidu_jq/getReward .png" ></image>
+		 		
+		 	<view class="light_view">
+		  		<image class="rotate light" src="https://static.zuiqiangyingyu.cn/wb_webview/caigebaidu_jq/light.png" ></image>
+		  		<image class="absolute_left treasureClose" src="https://static.zuiqiangyingyu.cn/admin/1812/bdcg_answer_ynfu.png" mode="widthFix" ></image>
+		  		
+		  		<view class="absolute_left add_ynfu">x {{money}}</view>
+		  	</view>
+		  	
+		  	<view  class="btn_bottom" style="margin-top: 20rpx;">
+		  		<view catchtap="clickAll" data-clicktype="get_reward" class="child_center">领取奖励</view>
+		  		<image catchtap="clickAll" data-clicktype="get_reward" class="btn1" src="https://static.zuiqiangyingyu.cn/wb_webview/caigebaidu_jq/btn2.png"></image>
+		  	</view>
+		  	
+		  	<view s-if="{{treasure.delayed}}" catchtap="clickAll" data-clicktype="close" class="give_up" style="margin-top: 5rpx;">
+		  		放弃奖励
+		  	</view>
+	  	</view>
+	  	<slot></slot>
+ 	</view>
+</view>
