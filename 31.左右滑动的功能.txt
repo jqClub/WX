@@ -72,7 +72,14 @@
 		</swiper>
 		
 	</view>
-	
-	<!--挑战机会+1的组件-->
-	<!--<dialog id='dialog'></dialog>-->
 </view>
+
+
+-----js文件-------
+touch_select(e) {
+  var that = this
+  var current = e.detail.current
+  that.setData({
+      billcurrent: current,
+    });
+  },
