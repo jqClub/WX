@@ -1,7 +1,4 @@
 见首页-排行版的处理
-
-
-<!--没有button，所以不发送fromid-->
 <view>
 	<view class="display_flex lists_top ">
 		<view catchtap="set_select" data-num="0"  formType="submit" class="{{billcurrent == 0 ? 'lists_click' :  'lists_no_click' }} " style="margin: 0 50rpx 0 40rpx;">
