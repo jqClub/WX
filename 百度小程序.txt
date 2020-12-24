@@ -77,3 +77,6 @@ that.onShow()
 15.request返回的数据只有Object/String，而微信的是Object/String/ArrayBuffer
 
 guess_v2->gs_baidu
+
+---12.25更新---
+16.将@-webkit-keyframes换成@keyframes，因为会自动带上前缀
